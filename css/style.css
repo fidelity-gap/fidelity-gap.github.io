@@ -849,6 +849,15 @@ h2, h3, .metric-heading .stat-label { text-wrap: balance; }
 /* Measured regional appearance and matched training-scale comparisons. */
 .ladder-mask-legend { justify-content: flex-end; margin-top: 14px; }
 .findings-extension { margin-top: 46px; }
+.appearance-details > summary { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border: 1px solid var(--line); border-radius: 6px; cursor: pointer; list-style: none; font-size: 14px; color: var(--ink-dim); }
+.appearance-details > summary::-webkit-details-marker { display: none; }
+.appearance-details > summary:hover { color: var(--ink); border-color: var(--line-strong); }
+.appearance-details[open] > summary { color: var(--ink); }
+.appearance-summary-label { flex: 1; }
+.appearance-metric { font-size: 11px; color: var(--ink-dimmer); }
+.appearance-details > summary > svg { flex: 0 0 16px; width: 16px; height: 16px; }
+.appearance-details[open] > summary > svg { transform: rotate(90deg); }
+.appearance-details > .plot-grid { margin: 20px 0 0; }
 :root .page #ladder-tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
 #ladder-tabs .tab { white-space: nowrap; }
 .ladder-gallery { display: block; margin-top: 0; }
@@ -859,19 +868,7 @@ h2, h3, .metric-heading .stat-label { text-wrap: balance; }
 .ladder-playback { grid-column: 1 / -1; margin: 0; }
 .ladder-gallery .comparison-panels:fullscreen .ladder-playback { align-self: start; }
 
-/* Agent examples share the original failure-category gallery. */
-:root .page .failure-tabs { align-items: center; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
-.failure-category-group { display: flex; align-items: center; gap: 22px; flex: 0 0 auto; }
-.failure-tabs .tab { flex-shrink: 0; white-space: nowrap; }
-.failure-group-label { display: inline-flex; align-items: center; flex-shrink: 0; padding: 4px 8px; border: 1px solid color-mix(in srgb, var(--failure-tag-color) 26%, transparent); border-radius: 4px; font: 500 10px/1.4 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: color-mix(in srgb, var(--failure-tag-color) 70%, var(--ink)); background: color-mix(in srgb, var(--failure-tag-color) 9%, transparent); }
-.failure-tag-object { --failure-tag-color: var(--fig-object); }
-.failure-tag-agent { --failure-tag-color: var(--fig-agent); }
-.failure-tab-divider { width: 1px; height: 18px; flex: 0 0 1px; background: var(--line-strong); }
-#failure-gallery > .cell[data-key="agent"] video { aspect-ratio: 1440 / 406; object-fit: contain; }
-.agent-mask-legend { justify-content: flex-end; margin-bottom: 14px; }
-.failure-tabs:has([data-tab="agent"].active) ~ .failure-object-note { display: none; }
 @media (max-width: 760px) {
-  .failure-category-group { gap: 16px; }
   .findings-extension { margin-top: 34px; }
   .ladder-gallery .comparison-panels { gap: 8px; }
   .ladder-gallery .comparison-panels figcaption { gap: 5px; padding-bottom: 8px; }

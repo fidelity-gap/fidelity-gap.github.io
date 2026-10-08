@@ -573,6 +573,14 @@ window.addEventListener('DOMContentLoaded', () => {
   renderOverview();
   renderFindings();
   renderDesign();
+  document.getElementById('region-lpips').addEventListener('toggle', event => {
+    if (!event.currentTarget.open) return;
+    // Measure the available width after the disclosure opens, including after
+    // a viewport or model-layer change while these plots were collapsed.
+    event.currentTarget.querySelectorAll('.plot-card > svg').forEach(svg => {
+      if (svg._plotOptions) renderPlot(svg, svg._plotOptions);
+    });
+  });
   const findings = ['plot-hand', 'plot-object', 'plot-lpips-hand', 'plot-lpips-object'];
   bindLayer('tog-skeleton', state, 'skeleton', renderFindings,
     ['Add skeleton conditioning', 'Remove skeleton conditioning'],

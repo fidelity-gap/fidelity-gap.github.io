@@ -72,42 +72,4 @@
     ladderGallery.appendChild(article);
   });
   document.getElementById('ladder-comparisons').hidden = ladder.length === 0;
-
-  const hand = data.handFailures || [];
-  const cause = hand[0]?.cause;
-  const validHand = hand.length === 3 && cause && new Set(hand.map(item => item.sceneGroup)).size === 3 &&
-    hand.every(item => item.reviewed === true && item.title && item.caption && item.sceneGroup && item.cause === cause &&
-      mediaPath(item.src, 'video') && mediaPath(item.poster, 'image'));
-  if (!validHand) return;
-  const handGallery = document.getElementById('failure-gallery');
-  hand.forEach((item, index) => {
-    const article = make('article', 'cell agent-failure-cell');
-    article.dataset.sample = item.id;
-    article.dataset.key = 'agent';
-    article.hidden = true;
-    const wrap = make('div', 'video-wrap');
-    if (index === 0) {
-      const legend = make('div', 'hero-mask-legend agent-mask-legend');
-      legend.setAttribute('aria-label', 'Agent mask colours: overlap, GT only, predicted only');
-      [['ov', 'Overlap'], ['gt', 'GT only'], ['pr', 'Predicted only']].forEach(([className, label]) => {
-        const entry = make('span');
-        entry.append(make('i', className), document.createTextNode(label));
-        legend.appendChild(entry);
-      });
-      wrap.appendChild(legend);
-    }
-    const labels = make('div', 'video-pair-labels');
-    labels.append(make('span', '', 'GT'), make('span', '', 'Ours'));
-    const video = videoFor(item, `Ground truth and our prediction: ${item.title}`);
-    video.controls = true;
-    video.loop = true;
-    video.dataset.autoplay = '';
-    wrap.append(labels, video);
-    const caption = make('div', 'caption');
-    caption.append(make('b', '', `${item.title.replace(/\.$/, '')}.`), document.createTextNode(` ${item.caption}`));
-    article.append(wrap, caption);
-    handGallery.appendChild(article);
-  });
-  document.getElementById('agent-failure-group').hidden = false;
-  document.getElementById('agent-failure-divider').hidden = false;
 })();

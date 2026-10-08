@@ -220,7 +220,38 @@
       <!-- Metric: SCS (wording follows paper Sec. 3, Metrics) -->
       <div class="metric-block" id="scs">
         <h3 class="metric-title">Metric · <span class="mono">SCS</span> (structural consistency)</h3>
-        <p class="metric-lede">SCS <span class="metric-cite">(Bagchi et al., 2026)</span> segments and tracks key scene elements through the predicted and ground-truth videos and averages mask IoU, capturing whether the provided actions are accurately reflected in the generated world.</p>
+        <p class="metric-lede">SCS (<a class="metric-cite" href="https://arxiv.org/abs/2601.15284" target="_blank" rel="noopener">Walk through Paintings</a>) segments and tracks key scene elements through the predicted and ground-truth videos and averages mask IoU, capturing whether the provided actions are accurately reflected in the generated world.</p>
+
+        <figure class="scs-demo" id="scs-demo" aria-label="SCS on one evaluation clip">
+          <div class="scs-controls">
+            <div class="scs-group" role="group" aria-label="Scene element">
+              <span class="scs-group-label mono">Element</span>
+              <button type="button" class="tab active" data-scs-element="hand" aria-pressed="true">Hands</button>
+              <button type="button" class="tab" data-scs-element="object" aria-pressed="false">Object</button>
+            </div>
+            <div class="scs-group" role="group" aria-label="Training data">
+              <span class="scs-group-label mono">Trained on</span>
+              <button type="button" class="tab" data-scs-budget="300h" aria-pressed="false">300 h</button>
+              <button type="button" class="tab" data-scs-budget="3kh" aria-pressed="false">3k h</button>
+              <button type="button" class="tab active" data-scs-budget="30kh" aria-pressed="true">30k h</button>
+            </div>
+          </div>
+          <div class="scs-panels">
+            <figure><figcaption><i class="scs-swatch gt"></i><b>Ground truth</b><span>GT mask</span></figcaption><canvas data-scs-canvas="gt" aria-label="Ground-truth video with its mask"></canvas></figure>
+            <figure><figcaption><i class="scs-swatch pr"></i><b>Prediction</b><span>predicted mask</span></figcaption><canvas data-scs-canvas="pr" aria-label="Predicted video with its mask"></canvas></figure>
+            <figure><figcaption><i class="scs-swatch ov"></i><b>Mask overlay</b><span class="hero-mask-legend scs-legend"><span><i class="ov"></i>Overlap</span><span><i class="gt"></i>GT only</span><span><i class="pr"></i>Predicted only</span></span></figcaption><canvas data-scs-canvas="ov" aria-label="Overlay of ground-truth and predicted masks"></canvas></figure>
+            <p class="scs-status media-status" role="status" hidden></p>
+          </div>
+          <div class="scs-score">
+            <div class="scs-readout">
+              <div><span class="scs-k mono" data-scs-frame>Frame 1 / 16</span><span class="scs-v"><span data-scs-frame-iou>–</span></span><span class="scs-d">IoU = overlap ÷ (overlap + GT only + predicted only)</span></div>
+              <div><span class="scs-k mono">Clip SCS</span><span class="scs-v scs-total" data-scs-score>–</span><span class="scs-d">mean IoU over future frames 1–16 (dashed line)</span></div>
+              <button type="button" class="playback-button scs-play" aria-pressed="true" aria-label="Pause"><svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg><svg class="icon-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5v14l12-7z"/></svg></button>
+            </div>
+            <svg class="scs-bars" viewBox="0 0 640 120" role="img" aria-label="Per-frame IoU for frames 1 to 16"></svg>
+          </div>
+        </figure>
+
         <details class="appearance-details metric-details">
           <summary>
             <span class="appearance-summary-label">How SCS is computed</span>
@@ -587,5 +618,6 @@
 <script src="js/main.js?v=20261008-findings"></script>
 <script src="js/teaser-data.js"></script>
 <script src="js/media.js?v=20261008-findings"></script>
+<script src="js/scs-demo.js?v=20261008-scs"></script>
 </body>
 </html>

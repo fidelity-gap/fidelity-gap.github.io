@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20261008-failure-restore">
+  <link rel="stylesheet" href="css/style.css?v=20261008-bbox-zoom-v3">
   <style>.site-header { top: env(safe-area-inset-top, 0px); } .paper-ref { font-size: 12px; color: var(--ink-dim); }</style>
 <style>
 /* Highlighted words: colour only, no italic serif */
@@ -295,7 +295,7 @@
 
       <div id="ladder-comparisons" class="findings-extension" hidden>
         <div id="ladder-tabs" class="gallery-controls" data-tabs data-tab-targets="#ladder-gallery > .ladder-comparison" aria-label="Training-scale examples"></div>
-        <div class="hero-mask-legend ladder-mask-legend" aria-label="Mask colours: overlap, GT only, predicted only"><span><i class="ov"></i>Overlap</span><span><i class="gt"></i>GT only</span><span><i class="pr"></i>Predicted only</span></div>
+        <div class="hero-mask-legend ladder-mask-legend" aria-label="Mask colours: hands overlap, object overlap, GT only, predicted only, mask conflict"><span><i class="hand-overlap"></i>Hands overlap</span><span><i class="object-overlap"></i>Object overlap</span><span><i class="gt"></i>GT only</span><span><i class="pr"></i>Predicted only</span><span><i class="conflict"></i>Mask conflict</span></div>
         <div id="ladder-gallery" class="comparison-gallery ladder-gallery"></div>
       </div>
     </section>
@@ -548,7 +548,7 @@
 <script src="js/paper-data.js"></script>
 <script src="js/lpips-data.js"></script>
 <script src="js/lpips-fits.js?v=43ae0e91"></script>
-<script src="js/qualitative-data.js?v=20261008-object-only"></script>
+<script src="js/qualitative-data.js?v=20261008-bbox-zoom-v3"></script>
 <script src="js/qualitative-ui.js?v=20261008-object-only"></script>
 <script src="js/teaser-scaling.js"></script>
 <script src="js/scaling.js?v=20261008-appearance-collapse"></script>

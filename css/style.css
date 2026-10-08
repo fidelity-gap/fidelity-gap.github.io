@@ -847,7 +847,10 @@ h2, h3, .metric-heading .stat-label { text-wrap: balance; }
 :root .page .sequence-toolbar { margin-top: 6px; }
 
 /* Measured regional appearance and matched training-scale comparisons. */
-.ladder-mask-legend { justify-content: flex-end; margin-top: 14px; }
+.ladder-mask-legend { justify-content: flex-end; gap: 6px 12px; margin-top: 14px; font-size: 11px; }
+.ladder-mask-legend i.hand-overlap { background: #c3d9ea; }
+.ladder-mask-legend i.object-overlap { background: #f4d9c3; }
+.ladder-mask-legend i.conflict { background: repeating-linear-gradient(135deg, #dc5a7f 0 3px, #7062bb 3px 6px); }
 .findings-extension { margin-top: 46px; }
 .appearance-details > summary { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border: 1px solid var(--line); border-radius: 6px; cursor: pointer; list-style: none; font-size: 14px; color: var(--ink-dim); }
 .appearance-details > summary::-webkit-details-marker { display: none; }
@@ -858,7 +861,7 @@ h2, h3, .metric-heading .stat-label { text-wrap: balance; }
 .appearance-details > summary > svg { flex: 0 0 16px; width: 16px; height: 16px; }
 .appearance-details[open] > summary > svg { transform: rotate(90deg); }
 .appearance-details > .plot-grid { margin: 20px 0 0; }
-:root .page #ladder-tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+:root .page #ladder-tabs { flex-wrap: wrap; }
 #ladder-tabs .tab { white-space: nowrap; }
 .ladder-gallery { display: block; margin-top: 0; }
 .ladder-gallery > .ladder-comparison { border: 0; border-radius: 0; background: transparent; overflow: visible; }

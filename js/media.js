@@ -239,7 +239,8 @@
     function label() {
       setPlayState(playButton, playing, 'comparison videos together');
       videos.forEach(video => {
-        video.setAttribute('aria-label', `${playing ? 'Pause' : 'Play'} comparison: ${video.dataset.comparisonModel === 'gt' ? 'ground truth' : video.dataset.comparisonModel === 'cosmos' ? 'Cosmos 3' : 'ours'}`);
+        const description = video.dataset.comparisonLabel || (video.dataset.comparisonModel === 'gt' ? 'ground truth' : video.dataset.comparisonModel === 'cosmos' ? 'Cosmos 3' : 'ours');
+        video.setAttribute('aria-label', `${playing ? 'Pause' : 'Play'} comparison: ${description}`);
       });
     }
     function tick() {
@@ -336,6 +337,7 @@
       }, { threshold: 0 }).observe(root);
     }
     document.addEventListener('visibilitychange', () => { if (document.hidden) pause(); });
+    root.addEventListener('comparison:hide', pause);
     document.addEventListener('site:motion', () => { if (!autoAllowed()) pause(); });
     label(); update();
   }

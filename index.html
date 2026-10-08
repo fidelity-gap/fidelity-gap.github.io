@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=3">
+  <link rel="stylesheet" href="css/style.css?v=20261008-findings">
   <style>.site-header { top: env(safe-area-inset-top, 0px); } .paper-ref { font-size: 12px; color: var(--ink-dim); }</style>
 <style>
 /* Highlighted words: colour only, no italic serif */
@@ -244,6 +244,21 @@
         </div>
       </div>
 
+      <div id="region-lpips" class="findings-extension" hidden>
+        <div class="plot-grid">
+          <div class="plot-card agent-plot">
+            <div class="head"><h3><span class="series-dot agent-dot"></span>Agent appearance</h3><span class="chart-badge">GT-mask LPIPS ↓</span></div>
+            <svg id="plot-lpips-hand"></svg>
+            <div class="legend mono" id="legend-lpips-hand"></div>
+          </div>
+          <div class="plot-card object-plot">
+            <div class="head"><h3><span class="series-dot object-dot"></span>Object appearance</h3><span class="chart-badge">GT-mask LPIPS ↓</span></div>
+            <svg id="plot-lpips-object"></svg>
+            <div class="legend mono" id="legend-lpips-object"></div>
+          </div>
+        </div>
+      </div>
+
       <div class="plot-controls original-explainer"><div class="explainer">
           <div class="thumb" style="background-image:url('img/training-zoom.jpg');"></div>
           <div class="txt">
@@ -272,6 +287,12 @@
       <p style="font-size:13px;color:var(--ink-dim);margin:32px 0 0;">
         Normalized by the maximum score each category can attain, the agent converges to <b style="color:var(--ink);">86% of its measurable range</b>, and objects to <b style="color:var(--ink);">63%</b>. The limitation is therefore not that object dynamics improve slowly with data, but that the level they improve toward lies far below the agent&rsquo;s.
       </p>
+
+      <div id="ladder-comparisons" class="findings-extension" hidden>
+        <div id="ladder-tabs" class="gallery-controls" data-tabs data-tab-targets="#ladder-gallery > .ladder-comparison" aria-label="Training-scale examples"></div>
+        <div class="hero-mask-legend ladder-mask-legend" aria-label="Mask colours: overlap, GT only, predicted only"><span><i class="ov"></i>Overlap</span><span><i class="gt"></i>GT only</span><span><i class="pr"></i>Predicted only</span></div>
+        <div id="ladder-gallery" class="comparison-gallery ladder-gallery"></div>
+      </div>
     </section>
 
 
@@ -356,14 +377,22 @@
         </p>
       </div>
 
-      <div class="gallery-controls" data-tabs data-tab-targets=".gallery > .cell">
-        <button class="tab active" data-tab="contact">Contact modeling</button>
-        <button class="tab" data-tab="physics">Physical properties</button>
-        <button class="tab" data-tab="perm">Object permanence</button>
-        <button class="tab" data-tab="nonrigid">Non-rigid dynamics</button>
+      <div class="gallery-controls failure-tabs" data-tabs data-tab-counts="false" data-tab-targets="#failure-gallery > .cell" aria-label="Filter object and agent failure examples">
+        <div class="failure-category-group failure-object-tabs" role="group" aria-label="Object failure categories">
+          <span class="failure-group-label failure-tag-object">Object</span>
+          <button class="tab active" data-tab="contact">Contact modeling</button>
+          <button class="tab" data-tab="physics">Physical properties</button>
+          <button class="tab" data-tab="perm">Object permanence</button>
+          <button class="tab" data-tab="nonrigid">Non-rigid dynamics</button>
+        </div>
+        <span id="agent-failure-divider" class="failure-tab-divider" aria-hidden="true" hidden></span>
+        <div id="agent-failure-group" class="failure-category-group failure-agent-tabs" role="group" aria-label="Agent failure categories" hidden>
+          <span class="failure-group-label failure-tag-agent">Agent</span>
+          <button id="agent-failure-tab" class="tab" data-tab="agent">Arm Motion</button>
+        </div>
       </div>
 
-      <div class="gallery">
+      <div id="failure-gallery" class="gallery">
         <!-- contact -->
         <div class="cell" data-key="contact">
           <div class="video-wrap"><div class="video-pair-labels"><span>GT</span><span>Ours</span></div><video controls data-poster="img/clean-fail-contact-spoon.jpg" src="videos/clean-fail-contact-spoon.mp4" muted loop playsinline preload="none" data-autoplay></video></div>
@@ -418,7 +447,7 @@
         </div>
       </div>
 
-      <p style="font-size:13px;color:var(--ink-dim);margin:32px 0 0;">
+      <p class="failure-object-note" style="font-size:13px;color:var(--ink-dim);margin:32px 0 0;">
         Two factors plausibly explain what remains. First, <b style="color:var(--ink);">irreducible uncertainty</b>: how an object responds to contact depends on mass, friction and stiffness, none perfectly recoverable from a single frame. Second, <b style="color:var(--ink);">the parts that matter most are not observable in pixels at all</b>: contacts and forces are never visible, and the object geometry under the hand is exactly what the hand occludes.
       </p>
     </section>
@@ -520,12 +549,16 @@
 </div>
 
 <script src="js/paper-data.js"></script>
+<script src="js/lpips-data.js"></script>
+<script src="js/lpips-fits.js?v=43ae0e91"></script>
+<script src="js/qualitative-data.js"></script>
+<script src="js/qualitative-ui.js"></script>
 <script src="js/teaser-scaling.js"></script>
-<script src="js/scaling.js"></script>
+<script src="js/scaling.js?v=20261008-lpips-asymptotes-4"></script>
 <script src="js/dataset.js"></script>
 <script src="js/playback.js"></script>
-<script src="js/main.js"></script>
+<script src="js/main.js?v=20261008-findings"></script>
 <script src="js/teaser-data.js"></script>
-<script src="js/media.js"></script>
+<script src="js/media.js?v=20261008-findings"></script>
 </body>
 </html>

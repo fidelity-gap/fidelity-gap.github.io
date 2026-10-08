@@ -845,3 +845,35 @@ h2, h3, .metric-heading .stat-label { text-wrap: balance; }
 
 /* Dataset sequence toolbar */
 :root .page .sequence-toolbar { margin-top: 6px; }
+
+/* Measured regional appearance and matched training-scale comparisons. */
+.ladder-mask-legend { justify-content: flex-end; margin-top: 14px; }
+.findings-extension { margin-top: 46px; }
+:root .page #ladder-tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+#ladder-tabs .tab { white-space: nowrap; }
+.ladder-gallery { display: block; margin-top: 0; }
+.ladder-gallery > .ladder-comparison { border: 0; border-radius: 0; background: transparent; overflow: visible; }
+.ladder-gallery .comparison-panels { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; padding: 0; }
+.ladder-gallery .comparison-panels video { aspect-ratio: 720 / 406; object-fit: contain; }
+.scale-dot { background: var(--fig-nano); }
+.ladder-playback { grid-column: 1 / -1; margin: 0; }
+.ladder-gallery .comparison-panels:fullscreen .ladder-playback { align-self: start; }
+
+/* Agent examples share the original failure-category gallery. */
+:root .page .failure-tabs { align-items: center; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+.failure-category-group { display: flex; align-items: center; gap: 22px; flex: 0 0 auto; }
+.failure-tabs .tab { flex-shrink: 0; white-space: nowrap; }
+.failure-group-label { display: inline-flex; align-items: center; flex-shrink: 0; padding: 4px 8px; border: 1px solid color-mix(in srgb, var(--failure-tag-color) 26%, transparent); border-radius: 4px; font: 500 10px/1.4 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: color-mix(in srgb, var(--failure-tag-color) 70%, var(--ink)); background: color-mix(in srgb, var(--failure-tag-color) 9%, transparent); }
+.failure-tag-object { --failure-tag-color: var(--fig-object); }
+.failure-tag-agent { --failure-tag-color: var(--fig-agent); }
+.failure-tab-divider { width: 1px; height: 18px; flex: 0 0 1px; background: var(--line-strong); }
+#failure-gallery > .cell[data-key="agent"] video { aspect-ratio: 1440 / 406; object-fit: contain; }
+.agent-mask-legend { justify-content: flex-end; margin-bottom: 14px; }
+.failure-tabs:has([data-tab="agent"].active) ~ .failure-object-note { display: none; }
+@media (max-width: 760px) {
+  .failure-category-group { gap: 16px; }
+  .findings-extension { margin-top: 34px; }
+  .ladder-gallery .comparison-panels { gap: 8px; }
+  .ladder-gallery .comparison-panels figcaption { gap: 5px; padding-bottom: 8px; }
+  .ladder-gallery .comparison-panels figcaption b { font-size: 11px; }
+}

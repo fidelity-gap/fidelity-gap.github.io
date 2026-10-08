@@ -1,0 +1,956 @@
+{
+  "schema_version": 1,
+  "status": "complete_with_sensitivity_diagnostics",
+  "metric": "GT-region LPIPS",
+  "fit_type": "Decreasing saturating power law",
+  "formula": "L(h)=A+B*(h/300)^(-c)",
+  "asymptote_definition": "Fitted limit A as h tends to infinity; model-dependent extrapolation, not a measured floor.",
+  "observations_per_fit": 5,
+  "number_of_fits": 6,
+  "source_protocol": {
+    "name": "GT-region LPIPS",
+    "version": 1,
+    "lower_is_better": true,
+    "backbone": "alex",
+    "lpips_version": "0.1",
+    "spatial": true,
+    "input": "Unmodified lossless uint8 RGB; float32 /127.5 - 1; 512x512",
+    "frame_indices": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16
+    ],
+    "region_reduction": "For each GT instance channel and frame, mean of the spatial LPIPS map at true GT-mask pixels; divide by that mask's pixel count.",
+    "time_reduction": "Equal mean of each channel's nonempty-GT frames 1..16.",
+    "dataset_reduction": "Equal mean of valid channel temporal means, separately for 150 hand channels and 204 object channels; objects are not pooled into a union mask or averaged per clip first.",
+    "empty_support": "Empty GT frame masks have null score and are excluded from time means. Entirely empty channels have null score and are excluded from dataset means. Counts are reported.",
+    "agent_definition": "Annotation channel name contains 'hand', case insensitive.",
+    "context": "Feature receptive fields can include context outside the mask; only spatial-map pooling is GT-region restricted.",
+    "not_equivalent_to": "Full-frame LPIPS, cropped LPIPS, or LPIPS of background-zeroed images."
+  },
+  "selection_policy": {
+    "name": "Match SCS skeleton-only horizontal asymptotes",
+    "selected_models": [
+      "edge-skeleton",
+      "nano-skeleton",
+      "super-skeleton"
+    ],
+    "excluded_models": [
+      "edge-baseline",
+      "nano-baseline"
+    ],
+    "scs_reference": "js/paper-data.js",
+    "scs_reference_sha256": "bdf353ef403a355d4350c030713e2985f698d899f57e90cde5d21417d6d9d6a9",
+    "verified_categories": [
+      "hand",
+      "object"
+    ],
+    "interpretation": "This is the requested display/fit selection policy, not a statistical conclusion that baseline curves cannot saturate.",
+    "all25_measured_points_preserved": true
+  },
+  "source_numeric_backend": "cpu",
+  "source_gt_mask_support": {
+    "agent": {
+      "channels_total": 150,
+      "channels_valid": 150,
+      "channels_empty": 0,
+      "channel_frames_total": 2400,
+      "channel_frames_valid": 2400,
+      "channel_frames_empty": 0
+    },
+    "object": {
+      "channels_total": 204,
+      "channels_valid": 204,
+      "channels_empty": 0,
+      "channel_frames_total": 3264,
+      "channel_frames_valid": 3263,
+      "channel_frames_empty": 1
+    }
+  },
+  "source_files_sha256": {
+    "js/lpips-data.js": "99d6d396faea4f0687ae10adc120c1a46aeead525a30d5a615eeeac922ec6e14",
+    "data/lpips-provenance.json": "ab6049821324afd370c898dbad7e6e87d93fe3349569fc6f239b42bfbbe37f63"
+  },
+  "source_input_hashes": {
+    "annotations": "08332f51efa4df3acba712e3bc9eeb9e9f4c96159cd83be44c899dd5f3b0e3e2",
+    "masks": "02d81bd7ac5c7eaca8c90b03d4ca5a17486e0e1a4be0aa3f1f7a9356c2949abc",
+    "gt_reference": "8f299dcb6e7527744f64d17788b85dc085f929cbefb20ea0ee00e53c8bb7ec17",
+    "scorer": "fa2760b043653d97cf74f86e145269c10af011958dd45b1b5bcc4477b83a9a42"
+  },
+  "source_result_hashes": [
+    "01e5956100db4280ab61583dd7c650400a5c9cec671d89675ec3aa7ee9b86f01",
+    "02ee9592a221b266925e2d968df3f107c3c963b60f7ed51f2ab38f5bf84f832e",
+    "07866edea6dea2e8113111342f6c140d9bd5cd9863ba6cab66b54ff403f317bf",
+    "07f95f21d520c1e6e37441e723c0ff3f6fa24288bef3aba491102ae2ea0d6619",
+    "25cf74ea6b70b034bfe538b23441401f5c0592cd5e8c6c4ce84403d24e8e7b12",
+    "26e57ee9c55bbc9f8d98982f790fd553ba1c08eafe08ed506e51a4cf775e9f4d",
+    "27302a6c54195a020784a4862592bec7af0b64da7fa1614dc0b9685061fa24bc",
+    "3a5310ec710ba2aa4984367eba9c46ccdd55203a33e61384a16d54ba2adda5bb",
+    "3ec268c9075be29d9939eb69de76255158dbab7f9d222bd2f10bdda2b8f6cdd1",
+    "3ef067aef951f84396fe8bc07c28da117b1dc32e5fd454212625e005038c8d6b",
+    "4d74259d9e0219556b7e5c3ff1cc122a0e2973be86752e16d5f7395f0e76e428",
+    "57a4fbe9d98ba1c08ea643f7d117d69d455f1480832f3eafaba271147e0ff22a",
+    "5a9a711e3de04a95e72a845d48df1fee5d7c765ac3d34a22c077b6bbcc2c12a0",
+    "7394cd4152b0f75cea0029a75fd4651c004590b7ecf0d204cfe934a9972bd265",
+    "804538bb493ae26dd9acdde1be97cb6737ab3eacd13e0c4390263c620feb69cd",
+    "85dd691dd1bf614b712aec1bc8b7716da47e86c40d7fc099f4edfe06d0f66a5a",
+    "aad63a61b01b6b974615655271e77499ca392aada2a180efd3b463b82290bfe6",
+    "af0f2cde3f8274fdd70813f146daef3415ed7c1919d00cc41d1de8462366d344",
+    "b0807ba925a2b04e0c8771b38f1bd9e834c9fac5ffdbf9ec14e9d2264b8d3b5a",
+    "b39566df8cb57ff1c647f20f1c0a32ae31a515553c6a257b2d85002cc9c8c3ea",
+    "bfc0a0de4361e18bc01d3b8671010654bb71a4802a917a73e2446c65555bb228",
+    "d046e49cf5f5dd8de5b9e0e3e7b1eab8bf5d1988db8a3ed30ddd8fdc782b1b16",
+    "d647660a36ede3dd77b1278eeb3394b8adeaa4d4761ca717e91b7c222925c8d3",
+    "e01947a4d2313b53d29a13990588ff38fccc877fba5188c400822215c9fd646d",
+    "f703929415af6bab35b0bf9d660bc5f2b107a57b7401e9528a5b965cc43f4a92"
+  ],
+  "builder_sha256": "4a8b5c8ca08d8cb8da2a2bf5effc5b262984398890e82cb8c81b226922b339cd",
+  "measured_exporter_sha256": "44a11a9ff32c5f410b47cff6b6ea179e93e79e600201b970423f7dfcdc162fcd",
+  "paper_reference": {
+    "path": "output/figure4_lpips_appendix_20260926/fit_power_original.py",
+    "sha256": "76ebb98a9dc6d89eba52ec8825091354ac26a8686ada55b997aef321d5a63ce9",
+    "relationship": "Same least-squares family as fitting S=1-L=c-a*(h/300)^(-alpha); A=1-c, B=a. Exact original solver agreement checked."
+  },
+  "runtime": {
+    "python": "3.14.7",
+    "numpy": "2.5.3"
+  },
+  "fit_protocol": {
+    "objective": "Unweighted least-squares in original LPIPS values, not log losses.",
+    "x_values": "Nominal observed checkpoint budgets 300,1000,3000,10000,30000 hours, matching displayed measured X coordinates. Exact checkpoint exposures remain in measured provenance.",
+    "constraints": {
+      "A": "0 <= A <= min(observed)-1e-12",
+      "B": "B >= 1e-12",
+      "c": [
+        0.001,
+        3.0
+      ]
+    },
+    "search": "Constrained linear variable projection over1201 equally spaced log-exponent grid points;100-step golden-section refinement of every local minimum and endpoint comparison;18 overlapping local log-exponent brackets; expanded exponent search .0001..10.",
+    "uncertainty": "No confidence intervals, significance tests or claimed statistical lower bounds are computed.",
+    "display": "Only horizontal fitted asymptotes are supplied to the website; measured points/lines stay in their original source module. No future projected observations."
+  },
+  "shared_y_domain": [
+    0.2,
+    0.45
+  ],
+  "range_coverage": {
+    "minimum_observed_or_asymptote": 0.21832439106423587,
+    "maximum_observed_or_asymptote": 0.4393019393818917,
+    "lower_padding": 0.018324391064235862,
+    "upper_padding": 0.010698060618108296
+  },
+  "fits": [
+    {
+      "category": "hand",
+      "model": "edge-skeleton",
+      "coefficients": {
+        "A": 0.252952995312754,
+        "B": 0.03706630580600869,
+        "c": 0.5492977465232712
+      },
+      "asymptote": 0.252952995312754,
+      "n_observations": 5,
+      "residual_degrees_of_freedom": 2,
+      "sse": 6.601790076963583e-06,
+      "rmse": 0.0011490683249453517,
+      "fit_hours": [
+        300,
+        1000,
+        3000,
+        10000,
+        30000
+      ],
+      "observed_values": [
+        0.28965565166354895,
+        0.27365561768191055,
+        0.26195621506090516,
+        0.25752196002398975,
+        0.2569922822081347
+      ],
+      "source_job_ids": [
+        "edge-skeleton-655",
+        "edge-skeleton-2182",
+        "edge-skeleton-6545",
+        "edge-skeleton-21818",
+        "edge-skeleton-65454"
+      ],
+      "fitted_at_observed_hours": [
+        0.2900193011187627,
+        0.2720851193562814,
+        0.2634166056425021,
+        0.25835388667267534,
+        0.2559068138482678
+      ],
+      "residuals_fit_minus_observed": [
+        0.0003636494552137215,
+        -0.001570498325629166,
+        0.0014603905815969154,
+        0.0008319266486855881,
+        -0.0010854683598668924
+      ],
+      "diagnostics": {
+        "coefficient_boundary_hit": false,
+        "exponent_boundary_hit": false,
+        "profile_local_minimum_count": 1,
+        "exponent_range_within_10_percent_min_sse": [
+          0.4985016193799253,
+          0.6008961240916905
+        ],
+        "multistart": {
+          "starts": 18,
+          "method": "18 overlapping bounded log-exponent brackets, with exact constrained linear projection",
+          "best_coefficients": {
+            "A": 0.25295299498063667,
+            "B": 0.037066306058689935,
+            "c": 0.5492977320986868
+          },
+          "best_sse": 6.601790076963416e-06,
+          "absolute_sse_difference": 1.6686549060909717e-19,
+          "all_starts_sse_range": [
+            6.601790076963416e-06,
+            0.0005613968208058257
+          ]
+        },
+        "broader_exponent_bounds": [
+          0.0001,
+          10.0
+        ],
+        "broader_search_A": 0.2529529951169837,
+        "broader_search_sse": 6.6017900769634085e-06,
+        "unconstrained_A": 0.252952995312754,
+        "unconstrained_sse": 6.601790076963583e-06,
+        "paper_solver_absolute_A_difference": 4.2396247623699423e-10,
+        "leave_one_out": [
+          {
+            "omitted_hours": 300,
+            "A": 0.25627338901867225,
+            "B": 0.06096473195841518,
+            "c": 1.041289476597486,
+            "rmse": 0.00021059475935822865,
+            "boundary_hit": false
+          },
+          {
+            "omitted_hours": 1000,
+            "A": 0.255520532237555,
+            "B": 0.034145310667251697,
+            "c": 0.7398100914728921,
+            "rmse": 0.0003412731641184392,
+            "boundary_hit": false
+          },
+          {
+            "omitted_hours": 3000,
+            "A": 0.25204022972325923,
+            "B": 0.03780190582249927,
+            "c": 0.48751865476611,
+            "rmse": 0.0008854704903323362,
+            "boundary_hit": false
+          },
+          {
+            "omitted_hours": 10000,
+            "A": 0.2536216564451818,
+            "B": 0.03634533704563706,
+            "c": 0.5575850452366475,
+            "rmse": 0.0011797427329735067,
+            "boundary_hit": false
+          },
+          {
+            "omitted_hours": 30000,
+            "A": 0.24782772197496836,
+            "B": 0.04203026118750632,
+            "c": 0.4352766703696894,
+            "rmse": 0.0008553831432628353,
+            "boundary_hit": false
+          }
+        ],
+        "leave_one_out_A_range": [
+          0.24782772197496836,
+          0.25627338901867225
+        ],
+        "leave_one_out_A_span_over_observed_loss_span": 0.2585669263311089,
+        "sensitive_to_checkpoint_selection": false,
+        "sensitivity_rule": "Flag when leave-one-out A range exceeds the entire observed loss range, or any leave-one-out fit reaches a bound. Descriptive heuristic, not statistical significance.",
+        "profile_note": "The 10%-of-minimum-SSE exponent range is an objective-function diagnostic, not a confidence interval.",
+        "identification_note": "Five checkpoints and three fit parameters leave only two residual degrees of freedom; fitted A is not an established irreducible error floor."
+      }
+    },
+    {
+      "category": "hand",
+      "model": "nano-skeleton",
+      "coefficients": {
+        "A": 0.22807818859127893,
+        "B": 0.04949945725595055,
+        "c": 0.5220555857983451
+      },
+      "asymptote": 0.22807818859127893,
+      "n_observations": 5,
+      "residual_degrees_of_freedom": 2,
+      "sse": 2.447308846502212e-07,
+      "rmse": 0.0002212378288856683,
+      "fit_hours": [
+        300,
+        1000,
+        3000,
+        10000,
+        30000
+      ],
+      "observed_values": [
+        0.27757070919934057,
+        0.2545666893101718,
+        0.24268157138839533,
+        0.23637812594523586,
+        0.23238016731250294
+      ],
+      "source_job_ids": [
+        "nano-skeleton-655",
+        "nano-skeleton-2182",
+        "nano-skeleton-6545",
+        "nano-skeleton-21818",
+        "nano-skeleton-65454"
+      ],
+      "fitted_at_observed_hours": [
+        0.2775776458472295,
+        0.2544796925678899,
+        0.24295619876256147,
+        0.23601366640207763,
+        0.2325500595758881
+      ],
+      "residuals_fit_minus_observed": [
+        6.936647888922121e-06,
+        -8.699674228190846e-05,
+        0.000274627374166142,
+        -0.00036445954315822426,
+        0.00016989226338515184
+      ],
+      "diagnostics": {
+        "coefficient_boundary_hit": false,
+        "exponent_boundary_hit": false,
+        "profile_local_minimum_count": 1,
+        "exponent_range_within_10_percent_min_sse": [
+          0.5154120628456793,
+          0.5293525175257559
+        ],
+        "multistart": {
+          "starts": 18,
+          "method": "18 overlapping bounded log-exponent brackets, with exact constrained linear projection",
+          "best_coefficients": {
+            "A": 0.22807818869274002,
+            "B": 0.0494994571772915,
+            "c": 0.522055588797819
+          },
+          "best_sse": 2.447308846502226e-07,
+          "absolute_sse_difference": 1.376428539288238e-21,
+          "all_starts_sse_range": [
+            2.447308846502226e-07,
+            0.0010590287459227945
+          ]
+        },
+        "broader_exponent_bounds": [
+          0.0001,
+          10.0
+        ],
+        "broader_search_A": 0.22807818852029674,
+        "broader_search_sse": 2.447308846502354e-07,
+        "unconstrained_A": 0.22807818859127893,
+        "unconstrained_sse": 2.447308846502212e-07,
+        "paper_solver_absolute_A_difference": 3.3306690738754696e-16,
+        "leave_one_out": [
+          {
+            "omitted_hours": 300,
+            "A": 0.2282094478654726,
+            "B": 0.04968690238656655,
+            "c": 0.5283880762098254,
+            "rmse": 0.0002462133858918737,
+            "boundary_hit": false
+          },
+          {
+            "omitted_hours": 1000,
+            "A": 0.228275062342703,
+            "B": 0.0492829610759929,
+            "c": 0.5286705790888286,
+            "rmse": 0.00023777065524403134,
+            "boundary_hit": false
+          },
+          {
+            "omitted_hours": 3000,
+            "A": 0.22787108167472572,
+            "B": 0.04966562336215351,
+            "c": 0.5121746484651916,
+            "rmse": 0.00017194535978573962,
+            "boundary_hit": false
+          },
+          {
+            "omitted_hours": 10000,
+            "A": 0.22777705129158884,
+            "B": 0.04982376503224603,
+            "c": 0.5195858221241524,
+            "rmse": 0.00010771100462713514,
+            "boundary_hit": false
+          },
+          {
+            "omitted_hours": 30000,
+            "A": 0.22883988913778316,
+            "B": 0.048769875673309974,
+            "c": 0.5377063495480694,
+            "rmse": 0.0001931795278819851,
+            "boundary_hit": false
+          }
+        ],
+        "leave_one_out_A_range": [
+          0.22777705129158884,
+          0.22883988913778316
+        ],
+        "leave_one_out_A_span_over_observed_loss_span": 0.023519033005972564,
+        "sensitive_to_checkpoint_selection": false,
+        "sensitivity_rule": "Flag when leave-one-out A range exceeds the entire observed loss range, or any leave-one-out fit reaches a bound. Descriptive heuristic, not statistical significance.",
+        "profile_note": "The 10%-of-minimum-SSE exponent range is an objective-function diagnostic, not a confidence interval.",
+        "identification_note": "Five checkpoints and three fit parameters leave only two residual degrees of freedom; fitted A is not an established irreducible error floor."
+      }
+    },
+    {
+      "category": "hand",
+      "model": "super-skeleton",
+      "coefficients": {
+        "A": 0.21832439106423587,
+        "B": 0.06568026124967681,
+        "c": 0.6640084680543962
+      },
+      "asymptote": 0.21832439106423587,
+      "n_observations": 5,
+      "residual_degrees_of_freedom": 2,
+      "sse": 8.028091977668928e-07,
+      "rmse": 0.0004007016839911938,
+      "fit_hours": [
+        300,
+        1000,
+        3000,
+        10000,
+        30000
+      ],
+      "observed_values": [
+        0.2840441206136754,
+        0.24773318669187722,
+        0.23240855116271453,
+        0.22544849010026563,
+        0.22092036331303097
+      ],
+      "source_job_ids": [
+        "super-skeleton-655",
+        "super-skeleton-2182",
+        "super-skeleton-6545",
+        "super-skeleton-21818",
+        "super-skeleton-65454"
+      ],
+      "fitted_at_observed_hours": [
+        0.2840046523139127,
+        0.2478527259031064,
+        0.23256165064917736,
+        0.22472513552251314,
+        0.221410547492854
+      ],
+      "residuals_fit_minus_observed": [
+        -3.946829976270161e-05,
+        0.00011953921122917488,
+        0.0001530994864628321,
+        -0.0007233545777524941,
+        0.0004901841798230222
+      ],
+      "diagnostics": {
+        "coefficient_boundary_hit": false,
+        "exponent_boundary_hit": false,
+        "profile_local_minimum_count": 1,
+        "exponent_range_within_10_percent_min_sse": [
+          0.6553423230988707,
+          0.6730674999305021
+        ],
+        "multistart": {
+          "starts": 18,
+          "method": "18 overlapping bounded log-exponent brackets, with exact constrained linear projection",
+          "best_coefficients": {
+            "A": 0.2183243911978963,
+            "B": 0.0656802611551469,
+            "c": 0.6640084727893771
+          },
+          "best_sse": 8.028091977668841e-07,
+          "absolute_sse_difference": 8.682087709356578e-21,
+          "all_starts_sse_range": [
+            8.028091977668841e-07,
+            0.002253482563673066
+          ]
+        },
+        "broader_exponent_bounds": [
+          0.0001,
+          10.0
+        ],
+        "broader_search_A": 0.2183243912381057,
+        "broader_search_sse": 8.028091977668848e-07,
+        "unconstrained_A": 0.21832439106423587,
+        "unconstrained_sse": 8.028091977668928e-07,
+        "paper_solver_absolute_A_difference": 1.978069652519565e-10,
+        "leave_one_out": [
+          {
+            "omitted_hours": 300,
+            "A": 0.21763820041698584,
+            "B": 0.06345440168138763,
+            "c": 0.6218644628234645,
+            "rmse": 0.0004128681498232807,
+            "boundary_hit": false
+          },
+          {
+            "omitted_hours": 1000,
+            "A": 0.21810082301000422,
+            "B": 0.06592676157779186,
+            "c": 0.6544240177972834,
+            "rmse": 0.00043610207095389614,
+            "boundary_hit": false
+          },
+          {
+            "omitted_hours": 3000,
+            "A": 0.21829015555233128,
+            "B": 0.06569557080145164,
+            "c": 0.6603479647957141,
+            "rmse": 0.00043751072512239,
+            "boundary_hit": false
+          },
+          {
+            "omitted_hours": 10000,
+            "A": 0.21773065118284354,
+            "B": 0.0663025074223473,
+            "c": 0.657036590513966,
+            "rmse": 4.8602685216274224e-05,
+            "boundary_hit": false
+          },
+          {
+            "omitted_hours": 30000,
+            "A": 0.21968060445347196,
+            "B": 0.06439054929349088,
+            "c": 0.6949053642057262,
+            "rmse": 0.00017254569734130246,
+            "boundary_hit": false
+          }
+        ],
+        "leave_one_out_A_range": [
+          0.21763820041698584,
+          0.21968060445347196
+        ],
+        "leave_one_out_A_span_over_observed_loss_span": 0.032355552391449084,
+        "sensitive_to_checkpoint_selection": false,
+        "sensitivity_rule": "Flag when leave-one-out A range exceeds the entire observed loss range, or any leave-one-out fit reaches a bound. Descriptive heuristic, not statistical significance.",
+        "profile_note": "The 10%-of-minimum-SSE exponent range is an objective-function diagnostic, not a confidence interval.",
+        "identification_note": "Five checkpoints and three fit parameters leave only two residual degrees of freedom; fitted A is not an established irreducible error floor."
+      }
+    },
+    {
+      "category": "object",
+      "model": "edge-skeleton",
+      "coefficients": {
+        "A": 0.37328939418192797,
+        "B": 0.035438474548071495,
+        "c": 0.4425062672477992
+      },
+      "asymptote": 0.37328939418192797,
+      "n_observations": 5,
+      "residual_degrees_of_freedom": 2,
+      "sse": 7.291720049843508e-06,
+      "rmse": 0.0012076191493880434,
+      "fit_hours": [
+        300,
+        1000,
+        3000,
+        10000,
+        30000
+      ],
+      "observed_values": [
+        0.40827042577481165,
+        0.3958720558096878,
+        0.3845592464412452,
+        0.3800120312000577,
+        0.3788934898707979
+      ],
+      "source_job_ids": [
+        "edge-skeleton-655",
+        "edge-skeleton-2182",
+        "edge-skeleton-6545",
+        "edge-skeleton-21818",
+        "edge-skeleton-65454"
+      ],
+      "fitted_at_observed_hours": [
+        0.40872786872999944,
+        0.3940910495818342,
+        0.38608228673049766,
+        0.3807985588894099,
+        0.37790748516485817
+      ],
+      "residuals_fit_minus_observed": [
+        0.0004574429551877923,
+        -0.0017810062278535987,
+        0.0015230402892524864,
+        0.0007865276893521678,
+        -0.0009860047059397359
+      ],
+      "diagnostics": {
+        "coefficient_boundary_hit": false,
+        "exponent_boundary_hit": false,
+        "profile_local_minimum_count": 1,
+        "exponent_range_within_10_percent_min_sse": [
+          0.3894532521288409,
+          0.4985016193799253
+        ],
+        "multistart": {
+          "starts": 18,
+          "method": "18 overlapping bounded log-exponent brackets, with exact constrained linear projection",
+          "best_coefficients": {
+            "A": 0.3732893934020352,
+            "B": 0.03543847518759541,
+            "c": 0.44250624340010913
+          },
+          "best_sse": 7.291720049843413e-06,
+          "absolute_sse_difference": 9.486769009248164e-20,
+          "all_starts_sse_range": [
+            7.291720049843413e-06,
+            0.00035943676881513035
+          ]
+        },
+        "broader_exponent_bounds": [
+          0.0001,
+          10.0
+        ],
+        "broader_search_A": 0.3732893938039391,
+        "broader_search_sse": 7.291720049843523e-06,
+        "unconstrained_A": 0.37328939418192797,
+        "unconstrained_sse": 7.291720049843508e-06,
+        "paper_solver_absolute_A_difference": 3.3854807846012136e-11,
+        "leave_one_out": [
+          {
+            "omitted_hours": 300,
+            "A": 0.37803961749372306,
+            "B": 0.05439496461769136,
+            "c": 0.9258066198639753,
+            "rmse": 9.112497609582479e-05,
+            "boundary_hit": false
+          },
+          {
+            "omitted_hours": 1000,
+            "A": 0.3768536239051381,
+            "B": 0.031427278929011496,
+            "c": 0.6207241329072142,
+            "rmse": 0.0002518349902710143,
+            "boundary_hit": false
+          },
+          {
+            "omitted_hours": 3000,
+            "A": 0.3711195855841515,
+            "B": 0.03741033845039949,
+            "c": 0.3682577943785511,
+            "rmse": 0.0009196890162514465,
+            "boundary_hit": false
+          },
+          {
+            "omitted_hours": 10000,
+            "A": 0.3739089046439351,
+            "B": 0.034754227531383235,
+            "c": 0.4461496940166998,
+            "rmse": 0.0012622830474611415,
+            "boundary_hit": false
+          },
+          {
+            "omitted_hours": 30000,
+            "A": 0.365502714747665,
+            "B": 0.043042292316923324,
+            "c": 0.32178900277638434,
+            "rmse": 0.000984139129023619,
+            "boundary_hit": false
+          }
+        ],
+        "leave_one_out_A_range": [
+          0.365502714747665,
+          0.37803961749372306
+        ],
+        "leave_one_out_A_span_over_observed_loss_span": 0.42676005377215526,
+        "sensitive_to_checkpoint_selection": false,
+        "sensitivity_rule": "Flag when leave-one-out A range exceeds the entire observed loss range, or any leave-one-out fit reaches a bound. Descriptive heuristic, not statistical significance.",
+        "profile_note": "The 10%-of-minimum-SSE exponent range is an objective-function diagnostic, not a confidence interval.",
+        "identification_note": "Five checkpoints and three fit parameters leave only two residual degrees of freedom; fitted A is not an established irreducible error floor."
+      }
+    },
+    {
+      "category": "object",
+      "model": "nano-skeleton",
+      "coefficients": {
+        "A": 0.3412796125434242,
+        "B": 0.04956966318164409,
+        "c": 0.4731308397279092
+      },
+      "asymptote": 0.3412796125434242,
+      "n_observations": 5,
+      "residual_degrees_of_freedom": 2,
+      "sse": 1.3711825000975165e-05,
+      "rmse": 0.0016560087560743852,
+      "fit_hours": [
+        300,
+        1000,
+        3000,
+        10000,
+        30000
+      ],
+      "observed_values": [
+        0.39144267778101166,
+        0.3668954209894243,
+        0.36023654381903664,
+        0.35153016102610596,
+        0.3456256273247237
+      ],
+      "source_job_ids": [
+        "nano-skeleton-655",
+        "nano-skeleton-2182",
+        "nano-skeleton-6545",
+        "nano-skeleton-21818",
+        "nano-skeleton-65454"
+      ],
+      "fitted_at_observed_hours": [
+        0.3908492757250683,
+        0.36932270527698463,
+        0.35795535304345666,
+        0.35071359508894956,
+        0.34688950180584305
+      ],
+      "residuals_fit_minus_observed": [
+        -0.0005934020559433817,
+        0.0024272842875603384,
+        -0.0022811907755799776,
+        -0.0008165659371563994,
+        0.0012638744811193647
+      ],
+      "diagnostics": {
+        "coefficient_boundary_hit": false,
+        "exponent_boundary_hit": false,
+        "profile_local_minimum_count": 1,
+        "exponent_range_within_10_percent_min_sse": [
+          0.4135554458768461,
+          0.5364635077250043
+        ],
+        "multistart": {
+          "starts": 18,
+          "method": "18 overlapping bounded log-exponent brackets, with exact constrained linear projection",
+          "best_coefficients": {
+            "A": 0.34127961264207346,
+            "B": 0.049569663102485464,
+            "c": 0.47313084215896273
+          },
+          "best_sse": 1.3711825000974767e-05,
+          "absolute_sse_difference": 3.9810548520952116e-19,
+          "all_starts_sse_range": [
+            1.3711825000974767e-05,
+            0.0008975095886235508
+          ]
+        },
+        "broader_exponent_bounds": [
+          0.0001,
+          10.0
+        ],
+        "broader_search_A": 0.3412796124290428,
+        "broader_search_sse": 1.3711825000975114e-05,
+        "unconstrained_A": 0.3412796125434242,
+        "unconstrained_sse": 1.3711825000975165e-05,
+        "paper_solver_absolute_A_difference": 7.965036408208448e-10,
+        "leave_one_out": [
+          {
+            "omitted_hours": 300,
+            "A": 0.21313341084553614,
+            "B": 0.16242041491471987,
+            "c": 0.0445461043366439,
+            "rmse": 0.00039459199754334113,
+            "boundary_hit": false
+          },
+          {
+            "omitted_hours": 1000,
+            "A": 0.3327343526278969,
+            "B": 0.05869785737468251,
+            "c": 0.3276055076017248,
+            "rmse": 0.00011687610715091962,
+            "boundary_hit": false
+          },
+          {
+            "omitted_hours": 3000,
+            "A": 0.34330550439954893,
+            "B": 0.04795253637622979,
+            "c": 0.5669801679497135,
+            "rmse": 0.0010766786038084505,
+            "boundary_hit": false
+          },
+          {
+            "omitted_hours": 10000,
+            "A": 0.3405934811030153,
+            "B": 0.05031216050889251,
+            "c": 0.46881525494776255,
+            "rmse": 0.0017832063982652715,
+            "boundary_hit": false
+          },
+          {
+            "omitted_hours": 30000,
+            "A": 0.3476539935450971,
+            "B": 0.04354262041121081,
+            "c": 0.6213800703604828,
+            "rmse": 0.0013911383248896628,
+            "boundary_hit": false
+          }
+        ],
+        "leave_one_out_A_range": [
+          0.21313341084553614,
+          0.3476539935450971
+        ],
+        "leave_one_out_A_span_over_observed_loss_span": 2.9360375964817087,
+        "sensitive_to_checkpoint_selection": true,
+        "sensitivity_rule": "Flag when leave-one-out A range exceeds the entire observed loss range, or any leave-one-out fit reaches a bound. Descriptive heuristic, not statistical significance.",
+        "profile_note": "The 10%-of-minimum-SSE exponent range is an objective-function diagnostic, not a confidence interval.",
+        "identification_note": "Five checkpoints and three fit parameters leave only two residual degrees of freedom; fitted A is not an established irreducible error floor."
+      }
+    },
+    {
+      "category": "object",
+      "model": "super-skeleton",
+      "coefficients": {
+        "A": 0.32475181306641165,
+        "B": 0.06754766950043059,
+        "c": 0.5707085028758654
+      },
+      "asymptote": 0.32475181306641165,
+      "n_observations": 5,
+      "residual_degrees_of_freedom": 2,
+      "sse": 4.491564602668739e-06,
+      "rmse": 0.0009477937120142483,
+      "fit_hours": [
+        300,
+        1000,
+        3000,
+        10000,
+        30000
+      ],
+      "observed_values": [
+        0.39249211035132997,
+        0.3580386727769136,
+        0.34299748789918577,
+        0.3354781545672502,
+        0.32843732991741725
+      ],
+      "source_job_ids": [
+        "super-skeleton-655",
+        "super-skeleton-2182",
+        "super-skeleton-6545",
+        "super-skeleton-21818",
+        "super-skeleton-65454"
+      ],
+      "fitted_at_observed_hours": [
+        0.3922994825668422,
+        0.3587299078796895,
+        0.3429028678220456,
+        0.33388222813489893,
+        0.3296292691086208
+      ],
+      "residuals_fit_minus_observed": [
+        -0.0001926277844877533,
+        0.0006912351027759112,
+        -9.462007714017284e-05,
+        -0.0015959264323512912,
+        0.0011919391912035282
+      ],
+      "diagnostics": {
+        "coefficient_boundary_hit": false,
+        "exponent_boundary_hit": false,
+        "profile_local_minimum_count": 1,
+        "exponent_range_within_10_percent_min_sse": [
+          0.5473095019628547,
+          0.5929310595762999
+        ],
+        "multistart": {
+          "starts": 18,
+          "method": "18 overlapping bounded log-exponent brackets, with exact constrained linear projection",
+          "best_coefficients": {
+            "A": 0.32475181322612207,
+            "B": 0.06754766938066686,
+            "c": 0.5707085069691906
+          },
+          "best_sse": 4.491564602668765e-06,
+          "absolute_sse_difference": 2.625802136488331e-20,
+          "all_starts_sse_range": [
+            4.491564602668765e-06,
+            0.0020681077526856946
+          ]
+        },
+        "broader_exponent_bounds": [
+          0.0001,
+          10.0
+        ],
+        "broader_search_A": 0.3247518130380121,
+        "broader_search_sse": 4.491564602668726e-06,
+        "unconstrained_A": 0.32475181306641165,
+        "unconstrained_sse": 4.491564602668739e-06,
+        "paper_solver_absolute_A_difference": 2.9920788069404125e-10,
+        "leave_one_out": [
+          {
+            "omitted_hours": 300,
+            "A": 0.319825027568132,
+            "B": 0.06290292953473192,
+            "c": 0.4185321554073131,
+            "rmse": 0.0007665925155909585,
+            "boundary_hit": false
+          },
+          {
+            "omitted_hours": 1000,
+            "A": 0.32316572103888,
+            "B": 0.06927839188065342,
+            "c": 0.528379266936894,
+            "rmse": 0.0008989216959428502,
+            "boundary_hit": false
+          },
+          {
+            "omitted_hours": 3000,
+            "A": 0.3248029247023265,
+            "B": 0.06751071383769122,
+            "c": 0.5731910418293561,
+            "rmse": 0.0010579130536994509,
+            "boundary_hit": false
+          },
+          {
+            "omitted_hours": 10000,
+            "A": 0.32341718642180567,
+            "B": 0.06896741553482888,
+            "c": 0.5603625324967417,
+            "rmse": 0.00040911073974027524,
+            "boundary_hit": false
+          },
+          {
+            "omitted_hours": 30000,
+            "A": 0.3289342997932236,
+            "B": 0.06357176009006603,
+            "c": 0.6511958421937777,
+            "rmse": 8.280581714315492e-05,
+            "boundary_hit": false
+          }
+        ],
+        "leave_one_out_A_range": [
+          0.319825027568132,
+          0.3289342997932236
+        ],
+        "leave_one_out_A_span_over_observed_loss_span": 0.14221065412112174,
+        "sensitive_to_checkpoint_selection": false,
+        "sensitivity_rule": "Flag when leave-one-out A range exceeds the entire observed loss range, or any leave-one-out fit reaches a bound. Descriptive heuristic, not statistical significance.",
+        "profile_note": "The 10%-of-minimum-SSE exponent range is an objective-function diagnostic, not a confidence interval.",
+        "identification_note": "Five checkpoints and three fit parameters leave only two residual degrees of freedom; fitted A is not an established irreducible error floor."
+      }
+    }
+  ]
+}

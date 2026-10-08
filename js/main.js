@@ -56,7 +56,7 @@
     const tabs = [...container.querySelectorAll('[data-tab]')];
     const targets = [...document.querySelectorAll(container.dataset.tabTargets)];
     container.setAttribute('role', 'group');
-    container.setAttribute('aria-label', 'Filter failure examples');
+    if (!container.hasAttribute('aria-label')) container.setAttribute('aria-label', 'Filter failure examples');
     const select = tab => {
       tabs.forEach(other => {
         const active = other === tab;
@@ -65,16 +65,21 @@
       });
       targets.forEach(target => {
         target.hidden = target.dataset.key !== tab.dataset.tab;
-        if (target.hidden) target.querySelectorAll('video').forEach(video => video.pause());
+        if (target.hidden) {
+          target.dispatchEvent(new Event('comparison:hide'));
+          target.querySelectorAll('video').forEach(video => video.pause());
+        }
       });
     };
     tabs.forEach((tab, index) => {
-      const count = targets.filter(target => target.dataset.key === tab.dataset.tab).length;
-      const badge = document.createElement('span');
-      badge.className = 'tab-count';
-      badge.textContent = String(count).padStart(2, '0');
-      badge.setAttribute('aria-hidden', 'true');
-      tab.appendChild(badge);
+      if (container.dataset.tabCounts !== 'false') {
+        const count = targets.filter(target => target.dataset.key === tab.dataset.tab).length;
+        const badge = document.createElement('span');
+        badge.className = 'tab-count';
+        badge.textContent = String(count).padStart(2, '0');
+        badge.setAttribute('aria-hidden', 'true');
+        tab.appendChild(badge);
+      }
       tab.addEventListener('click', () => select(tab));
       tab.addEventListener('keydown', event => {
         if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;

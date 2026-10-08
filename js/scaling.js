@@ -120,6 +120,8 @@ function renderPlot(svg, opts) {
   const xMin = opts.xMin || 300;
   const xOf = hours => pad.l + iw * Math.log(hours / xMin) / Math.log(xMax / xMin);
   const yOf = value => pad.t + ih * (1 - (value - opts.yDomain[0]) / (opts.yDomain[1] - opts.yDomain[0]));
+  const metric = opts.metricName || 'SCS';
+  const direction = opts.lowerIsBetter ? 'Lower' : 'Higher';
   if (opts.onReveal) {
     svg._onTrace = width => {
       const points = opts.data[opts.seriesKeys[0]].points;
@@ -129,11 +131,11 @@ function renderPlot(svg, opts) {
   }
   svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
   svg.setAttribute('role', 'group');
-  svg.setAttribute('aria-label', `${opts.yLabel}. Training data from ${xMin.toLocaleString()} to ${xMax.toLocaleString()} clip-equivalent hours. Higher scores are better. Use arrow keys to inspect points.`);
+  svg.setAttribute('aria-label', `${opts.yLabel}. Training data from ${xMin.toLocaleString()} to ${xMax.toLocaleString()} clip-equivalent hours. ${direction} scores are better. Use arrow keys to inspect points.`);
   svg.innerHTML = '';
   const defs = mk('defs');
   svg.appendChild(defs);
-  svg.appendChild(mk('text', { x: pad.l, y: 13, fill: 'var(--ink-dim)', 'font-size': 10, 'font-family': 'DM Sans, sans-serif' }, 'SCS ↑'));
+  svg.appendChild(mk('text', { x: pad.l, y: 13, fill: 'var(--ink-dim)', 'font-size': 10, 'font-family': 'DM Sans, sans-serif' }, `${metric} ${opts.lowerIsBetter ? '↓' : '↑'}`));
   if (opts.showExtrap) {
     svg.appendChild(mk('rect', { x: xOf(30000), y: pad.t, width: W - pad.r - xOf(30000), height: ih, fill: 'var(--plot-projection)', rx: 2 }));
     svg.appendChild(mk('text', { x: xOf(30000) + 10, y: pad.t + 16, fill: 'var(--ink-dim)', 'font-size': 9, 'font-family': 'IBM Plex Mono, monospace' }, compact ? 'Projection' : 'FITTED PROJECTION'));
@@ -155,7 +157,7 @@ function renderPlot(svg, opts) {
   opts.seriesKeys.forEach(key => {
     const a = opts.data[key]?.asymptote;
     if (a == null || a < opts.yDomain[0] || a > opts.yDomain[1]) return;
-    const y = yOf(a), message = `${STYLE[key].label} · asymptote ${a.toFixed(3)} SCS`;
+    const y = yOf(a), message = `${STYLE[key].label} · ${opts.asymptoteLabel || 'asymptote'} ${a.toFixed(3)} ${metric}`;
     const line = mk('line', { x1: pad.l, x2: W - pad.r, y1: y, y2: y, stroke: STYLE[key].color, 'stroke-width': 1.3,
       'stroke-dasharray': '1.5 3.5', 'stroke-linecap': 'round', opacity: .75, class: 'plot-asymptote', 'data-series': key });
     const hit = mk('line', { x1: pad.l, x2: W - pad.r, y1: y, y2: y, stroke: 'transparent', 'stroke-width': 9,
@@ -181,11 +183,11 @@ function renderPlot(svg, opts) {
       gradient.appendChild(mk('stop', { offset: '0%', 'stop-color': style.color, 'stop-opacity': .12 }));
       gradient.appendChild(mk('stop', { offset: '100%', 'stop-color': style.color, 'stop-opacity': 0 }));
       defs.appendChild(gradient);
-      group.appendChild(mk('path', { d: `${path} L${xOf(30000)},${H - pad.b} L${xOf(xMin)},${H - pad.b} Z`, fill: `url(#${gradientId})`, 'aria-hidden': 'true' }));
+      group.appendChild(mk('path', { d: `${path} L${xOf(30000)},${H - pad.b} L${xOf(xMin)},${H - pad.b} Z`, fill: `url(#${gradientId})`, 'aria-hidden': 'true', 'pointer-events': 'none' }));
     }
     group.appendChild(mk('path', { d: path, fill: 'none', stroke: style.color, 'stroke-width': style.family === 'edge' ? 2.1 : 2.8, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', 'stroke-dasharray': style.dashed ? '5 5' : 'none' }));
     series.points.forEach(([hours, value]) => {
-      const message = `${style.label} · ${hours.toLocaleString('en-US')} h · ${value.toFixed(3)} SCS`;
+      const message = `${style.label} · ${hours.toLocaleString('en-US')} h · ${value.toFixed(3)} ${metric}${opts.lowerIsBetter ? ' (lower is better)' : ''}`;
       const point = mk('circle', { 'data-hours': hours, cx: xOf(hours), cy: yOf(value), r: 3.8, fill: 'var(--bg-2)', stroke: style.color, 'stroke-width': 2, tabindex: -1, class: 'plot-point', role: 'img', 'aria-label': message });
       point.appendChild(mk('title', {}, message));
       group.appendChild(point);
@@ -454,6 +456,67 @@ function renderFindings() {
   document.getElementById('callout-object').innerHTML = state.skeleton
       ? `The fitted object asymptote is <b>0.565</b>, of which the model has already realized <b>93%</b> at 30k hours.`
       : `Without skeleton conditioning, the object curves show no visible curvature over this range, so their asymptotes are not yet constrained.`;
+  renderRegionLpips(keys);
+}
+
+// Keep the complete measured ladder separate from derived asymptote estimates.
+// Require all five budgets for every method before exposing either card.
+function renderRegionLpips(keys) {
+  const block = document.getElementById('region-lpips');
+  const data = typeof LPIPS_PLOTS !== 'undefined' ? LPIPS_PLOTS : window.LPIPS_PLOTS;
+  const methods = ['edge_baseline', 'nano_baseline', 'edge_skeleton', 'nano_skeleton', 'super_skeleton'];
+  const budgets = [300, 1000, 3000, 10000, 30000];
+  const valid = ['hand', 'object'].every(category => methods.every(method => {
+    const series = data?.[category]?.[method];
+    return ['points', 'observed'].every(field => Array.isArray(series?.[field]) && series[field].length === budgets.length &&
+      series[field].every((point, index) => Array.isArray(point) && point.length === 2 && point[0] === budgets[index] && Number.isFinite(point[1]) && point[1] >= 0)) &&
+      series.points.every((point, index) => point[1] === series.observed[index][1]) &&
+      Array.isArray(series.projected) && series.projected.length === 0 && series.asymptote == null;
+  }));
+  block.hidden = !valid;
+  if (!valid) return;
+  const fits = window.LPIPS_FITS;
+  // Match the SCS panels: fit asymptotes only for skeleton-conditioned methods.
+  const fittedMethods = ['edge_skeleton', 'nano_skeleton', 'super_skeleton'];
+  const fitsValid = ['hand', 'object'].every(category => fittedMethods.every(method => {
+    const fit = fits?.[category]?.[method];
+    return fit?.n_observations === budgets.length && Number.isFinite(fit.asymptote) &&
+      fit.asymptote >= 0 && fit.asymptote < Math.min(...data[category][method].points.map(point => point[1]));
+  }));
+  // Include all measured points and fitted levels in one padded domain, keeping
+  // both panels and all layer-toggle states on exactly the same vertical scale.
+  const values = ['hand', 'object'].flatMap(category => methods.flatMap(method => [
+    ...data[category][method].points.map(point => point[1]),
+    ...(fitsValid && fittedMethods.includes(method) ? [fits[category][method].asymptote] : []),
+  ]));
+  const minimum = Math.min(...values), maximum = Math.max(...values);
+  const step = .05, padding = (maximum - minimum) * .04;
+  const lower = Math.max(0, Math.floor((minimum - padding) / step) * step);
+  const upper = Math.ceil((maximum + padding) / step) * step;
+  const ticks = Array.from({ length: Math.round((upper - lower) / step) + 1 }, (_, index) => Number((lower + index * step).toFixed(2)));
+  ['hand', 'object'].forEach(category => {
+    const plotData = Object.fromEntries(methods.map(method => [method, {
+      ...data[category][method],
+      ...(fitsValid && fittedMethods.includes(method) ? {
+        asymptote: fits[category][method].asymptote,
+      } : {}),
+    }]));
+    renderPlot(document.getElementById(`plot-lpips-${category}`), {
+      yDomain: [ticks[0], ticks.at(-1)], yTicks: ticks,
+      yLabel: `${category === 'hand' ? 'Agent' : 'Object'} GT-mask LPIPS`,
+      metricName: 'LPIPS', lowerIsBetter: true, seriesKeys: keys,
+      data: plotData, showExtrap: false, compactTicks: budgets,
+      asymptoteLabel: 'fitted asymptote',
+    });
+    const legend = document.getElementById(`legend-lpips-${category}`);
+    renderLegend(legend, keys);
+    if (fitsValid && keys.some(method => fittedMethods.includes(method))) {
+      const item = document.createElement('span'), mark = document.createElement('i');
+      mark.style.borderTop = '2px dotted var(--ink-dim)';
+      item.append(mark, document.createTextNode('Fitted asymptote'));
+      legend.appendChild(item);
+    }
+  });
 }
 function renderDesign() {
   const keys = stateDesign.ours ? ['nano_skeleton', 'nano_ours'] : ['nano_skeleton'];
@@ -510,12 +573,12 @@ window.addEventListener('DOMContentLoaded', () => {
   renderOverview();
   renderFindings();
   renderDesign();
-  const findings = ['plot-hand', 'plot-object'];
+  const findings = ['plot-hand', 'plot-object', 'plot-lpips-hand', 'plot-lpips-object'];
   bindLayer('tog-skeleton', state, 'skeleton', renderFindings,
     ['Add skeleton conditioning', 'Remove skeleton conditioning'],
     findings.map(id => ({ id, keys: ['nano_skeleton', 'edge_skeleton', 'super_skeleton'] })));
   bindLayer('tog-extrap', state, 'extrap', renderFindings,
-    ['Extend to 1M hours', 'Remove 1M-hour projection'], findings.map(id => ({ id, keys: null })));
+    ['Extend to 1M hours', 'Remove 1M-hour projection'], ['plot-hand', 'plot-object'].map(id => ({ id, keys: null })));
   bindLayer('tog-ours', stateDesign, 'ours', renderDesign,
     ['Add dynamic-region supervision', 'Remove dynamic-region supervision'], [{ id: 'plot-object-ours', keys: ['nano_ours'] }]);
   bindLayer('tog-extrap-obj', stateDesign, 'extrap', renderDesign,

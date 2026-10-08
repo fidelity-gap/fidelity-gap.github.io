@@ -128,21 +128,21 @@
       <figure class="hero-scaling">
         <div class="hero-figure-grid">
           <div class="plot-card hero-plot">
-            <div class="hero-plot-heading"><h3>Agent and object fidelity</h3><div class="hero-plot-actions"><span class="hero-variant">Nano baseline · select a scale</span><button class="replay-plots playback-button" type="button" data-replay-plots="overview" aria-label="Replay the opening scaling plot" title="Replay the opening scaling plot"><svg class="replay-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M20 10a8 8 0 1 0 0 5M20 4v6h-6"/></svg></button></div></div>
+            <div class="hero-plot-heading"><h3>Hand and object dynamics</h3><div class="hero-plot-actions"><span class="hero-variant">Nano baseline · select a scale</span><button class="replay-plots playback-button" type="button" data-replay-plots="overview" aria-label="Replay the opening scaling plot" title="Replay the opening scaling plot"><svg class="replay-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M20 10a8 8 0 1 0 0 5M20 4v6h-6"/></svg></button></div></div>
             <svg id="plot-overview"></svg>
           </div>
           <div class="hero-sample" id="hero-comparison" data-comparison data-loop="once">
             <div class="hero-plot-heading"><h3>Trained on <span data-scale-name>30k</span> hours</h3><span class="hero-mask-legend" aria-label="Mask colours: overlap, GT only, predicted only"><span><i class="ov"></i>Overlap</span><span><i class="gt"></i>GT only</span><span><i class="pr"></i>Predicted only</span></span></div>
             <div class="comparison-panels">
               <figure><figcaption><span class="comparison-dot gt-dot"></span><b>GT</b></figcaption><div class="comparison-video-frame"><video src="videos/scaling-idx112-gt.mp4" poster="img/scaling-idx112-gt.jpg" muted playsinline preload="metadata" data-comparison-model="gt" aria-label="Ground truth"></video></div></figure>
-              <figure><figcaption><span class="comparison-dot ours-dot"></span><b>Nano · <span data-scale-name>30k</span> h</b></figcaption><div class="comparison-video-frame"><video src="videos/scaling-idx112-30k.mp4" poster="img/scaling-idx112-30k.jpg" muted playsinline preload="metadata" data-comparison-model="ours" aria-label="Nano prediction trained on 30k hours"></video></div><div class="video-toolbar hero-video-controls"><div class="comparison-playback"><div class="playback-cluster" role="group" aria-label="Comparison playback"><button class="playback-button" type="button" data-comparison-play data-playing="false" aria-label="Play comparison videos together" title="Play comparison videos together"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path class="playback-play-icon" d="M8 5v14l11-7z"/><path class="playback-pause-icon" d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg></button><button class="playback-button" type="button" data-comparison-replay aria-label="Replay agent fidelity comparison" title="Replay agent fidelity comparison"><svg class="replay-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M20 10a8 8 0 1 0 0 5M20 4v6h-6"/></svg></button><button class="playback-button" type="button" data-comparison-fullscreen aria-label="Full screen comparison" title="Full screen comparison"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M9 4H4v5m11-5h5v5M4 15v5h5m11-5v5h-5"/></svg></button></div></div><input class="video-seek" type="range" data-comparison-seek min="0" max="1000" value="0" aria-label="Seek agent fidelity comparison videos together"></div></figure>
+              <figure><figcaption><span class="comparison-dot ours-dot"></span><b>Nano · <span data-scale-name>30k</span> h</b></figcaption><div class="comparison-video-frame"><video src="videos/scaling-idx112-30k.mp4" poster="img/scaling-idx112-30k.jpg" muted playsinline preload="metadata" data-comparison-model="ours" aria-label="Nano prediction trained on 30k hours"></video></div><div class="video-toolbar hero-video-controls"><div class="comparison-playback"><div class="playback-cluster" role="group" aria-label="Comparison playback"><button class="playback-button" type="button" data-comparison-play data-playing="false" aria-label="Play comparison videos together" title="Play comparison videos together"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path class="playback-play-icon" d="M8 5v14l11-7z"/><path class="playback-pause-icon" d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg></button><button class="playback-button" type="button" data-comparison-replay aria-label="Replay hand dynamics comparison" title="Replay hand dynamics comparison"><svg class="replay-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M20 10a8 8 0 1 0 0 5M20 4v6h-6"/></svg></button><button class="playback-button" type="button" data-comparison-fullscreen aria-label="Full screen comparison" title="Full screen comparison"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M9 4H4v5m11-5h5v5M4 15v5h5m11-5v5h-5"/></svg></button></div></div><input class="video-seek" type="range" data-comparison-seek min="0" max="1000" value="0" aria-label="Seek hand dynamics comparison videos together"></div></figure>
             </div>
 
             <p class="media-status comparison-status" role="status" hidden></p>
           </div>
         </div>
         <figcaption class="hero-takeaway">
-          <strong>Ego-centric data scaling reaches high agent fidelity, but the effect of the agent’s actions on the world lags far behind.</strong> The hands land almost exactly where they belong — the paper they are folding does not.
+          <strong>More ego-centric training data improves the predicted hand dynamics, but the models still struggle to predict how objects respond.</strong> The hands land almost exactly where they belong — the paper they are folding does not.
         </figcaption>
       </figure>
 
@@ -212,16 +212,16 @@
     <section id="findings">
       <div class="section-head">
         <div class="num">02 · Findings</div>
-        <h2>Scaling brings the agent near saturation but <em>leaves object interaction far behind</em>.</h2>
+        <h2>Models learn hand dynamics, <em>but object interactions lag behind</em>.</h2>
         <p class="lede">
-          More data makes the agent’s motion increasingly accurate, but the objects it acts on remain much harder to predict. We observe this gap in out-of-distribution testing scenarios involving locations and participants unseen during training.
+          The models generate videos of human hands and the objects they interact with. More training data helps the models reproduce hand movements, but they still struggle to show how the objects move or change in response. We observe this gap in out-of-distribution testing scenarios involving locations and participants unseen during training.
         </p>
       </div>
 
       <!-- Metric: SCS (wording follows paper Sec. 3, Metrics) -->
       <div class="metric-block" id="scs">
         <h3 class="metric-title">Metric · <span class="mono">SCS</span> (structural consistency)</h3>
-        <p class="metric-lede">SCS <span class="metric-cite">(Bagchi et al., 2026)</span> segments and tracks key scene elements through the predicted and ground-truth videos and averages mask IoU, capturing whether the provided actions are accurately reflected in the generated world.</p>
+        <p class="metric-lede">SCS <span class="metric-cite">(Bagchi et al., 2026)</span> compares the positions and shapes of the generated hands and interacting objects with those in the reference video. A higher score means their motion and interactions follow the reference more closely.</p>
         <details class="appearance-details metric-details">
           <summary>
             <span class="appearance-summary-label">How SCS is computed</span>
@@ -239,10 +239,10 @@
           </div>
           <div>
             <div class="k">3 · Average</div>
-            <div class="d">Mask IoU is averaged over future frames 1–16 and reported separately for the hands (<b>agent</b>) and the manipulated <b>objects</b>. Higher is better.</div>
+            <div class="d">Mask IoU is averaged over future frames 1–16 and reported separately for the <b>hands</b> and the manipulated <b>objects</b>. Higher is better.</div>
           </div>
         </div>
-        <p class="plot-note metric-note">Because mask tracking is itself imperfect, even a perfect prediction would not score an SCS of 1.0. The achievable maximum is <span class="mono">0.93</span> for the agent and <span class="mono">0.90</span> for objects, well above the scores our models attain.</p>
+        <p class="plot-note metric-note">Because mask tracking is itself imperfect, even a perfect prediction would not score an SCS of 1.0. The achievable maximum is <span class="mono">0.93</span> for the hands and <span class="mono">0.90</span> for objects, well above the scores our models attain.</p>
         </details>
       </div>
 
@@ -258,7 +258,7 @@
       <!-- Detailed interactive plots -->
       <div class="plot-grid">
         <div class="plot-card agent-plot">
-          <div class="head"><h3><span class="series-dot agent-dot"></span>Agent fidelity</h3><span class="chart-badge">Hand SCS ↑</span></div>
+          <div class="head"><h3><span class="series-dot agent-dot"></span>Hand dynamics</h3><span class="chart-badge">Hand SCS ↑</span></div>
           <div class="plot-readout"><span id="score-hand">≈0.785</span><div><span>Hand SCS ↑</span><span class="plot-trend" id="trend-hand">30k hours</span></div></div>
           <svg id="plot-hand"></svg>
           <div class="legend mono" id="legend-hand"></div>
@@ -266,7 +266,7 @@
         </div>
 
         <div class="plot-card object-plot">
-          <div class="head"><h3><span class="series-dot object-dot"></span>Manipulated object fidelity</h3><span class="chart-badge">Object SCS ↑</span></div>
+          <div class="head"><h3><span class="series-dot object-dot"></span>Object dynamics</h3><span class="chart-badge">Object SCS ↑</span></div>
           <div class="plot-readout"><span id="score-object">0.527</span><div><span>Object SCS ↑</span><span class="plot-trend" id="trend-object">30k hours</span></div></div>
           <svg id="plot-object"></svg>
           <div class="legend mono" id="legend-object"></div>
@@ -276,13 +276,13 @@
 
       <details id="region-lpips" class="findings-extension appearance-details" hidden>
         <summary>
-          <span class="appearance-summary-label">Agent &amp; object appearance</span>
+          <span class="appearance-summary-label">Hand &amp; object appearance</span>
           <span class="appearance-metric mono">LPIPS</span>
           <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg>
         </summary>
         <div class="plot-grid">
           <div class="plot-card agent-plot">
-            <div class="head"><h3><span class="series-dot agent-dot"></span>Agent appearance</h3><span class="chart-badge">GT-mask LPIPS ↓</span></div>
+            <div class="head"><h3><span class="series-dot agent-dot"></span>Hand appearance</h3><span class="chart-badge">GT-mask LPIPS ↓</span></div>
             <svg id="plot-lpips-hand"></svg>
             <div class="legend mono" id="legend-lpips-hand"></div>
           </div>
@@ -304,23 +304,23 @@
       <div class="takeaway">
         <div>
           <div class="k">Finding 1</div>
-          <div class="v">Conditioning saturates the agent with far less data.</div>
-          <div class="d">Supplying the projected skeleton lets <span class="mono">300</span> hours reach the agent fidelity that unconditioned training attains only at roughly <span class="mono">15k</span> hours &mdash; a <span class="mono">≈50×</span> reduction &mdash; and both designs converge to nearly the same limit (<span class="mono">0.800</span> and <span class="mono">0.811</span>).</div>
+          <div class="v">Skeleton inputs improve hand dynamics with much less data.</div>
+          <div class="d">Supplying the projected skeleton lets <span class="mono">300</span> hours reach the hand dynamics that unconditioned training attains only at roughly <span class="mono">15k</span> hours &mdash; a <span class="mono">≈50×</span> reduction &mdash; and both designs converge to nearly the same limit (<span class="mono">0.800</span> and <span class="mono">0.811</span>).</div>
         </div>
         <div>
           <div class="k">Finding 2</div>
-          <div class="v">With the agent saturated, object interaction converges far below it.</div>
-          <div class="d">Object fidelity improves by only <span class="mono">0.09</span> SCS across two orders of magnitude and decelerates (<span class="mono">+0.056</span> from 300 to 3k hours, <span class="mono">+0.035</span> from 3k to 30k). Its fitted asymptote is <span class="mono">0.565</span>, of which <span class="mono">93%</span> is already realized at 30k hours.</div>
+          <div class="v">Accurate hands do not guarantee accurate object dynamics.</div>
+          <div class="d">Object dynamics improves by only <span class="mono">0.09</span> SCS across two orders of magnitude and decelerates (<span class="mono">+0.056</span> from 300 to 3k hours, <span class="mono">+0.035</span> from 3k to 30k). Its fitted asymptote is <span class="mono">0.565</span>, of which <span class="mono">93%</span> is already realized at 30k hours.</div>
         </div>
         <div>
           <div class="k">Finding 3</div>
           <div class="v">Neither more data nor a larger model closes the gap.</div>
-          <div class="d">Scaling the model <span class="mono">4×</span> (Super) leaves agent fidelity virtually unchanged and raises the object ceiling by only <span class="mono">0.034</span> SCS; closing the remaining <span class="mono">0.205</span> to the agent ceiling at that rate would take roughly six more quadruplings.</div>
+          <div class="d">Scaling the model <span class="mono">4×</span> (Super) leaves hand dynamics virtually unchanged and raises the fitted limit for object dynamics by only <span class="mono">0.034</span> SCS; closing the remaining <span class="mono">0.205</span> to the fitted limit for hand dynamics at that rate would take roughly six more quadruplings.</div>
         </div>
       </div>
 
       <p class="section-note">
-        Normalized by the maximum score each category can attain, the agent converges to <b style="color:var(--ink);">86% of its measurable range</b>, and objects to <b style="color:var(--ink);">63%</b>. The limitation is therefore not that object dynamics improve slowly with data, but that the level they improve toward lies far below the agent&rsquo;s.
+        Normalized by the maximum score each category can attain, hand dynamics converge to <b style="color:var(--ink);">86% of its measurable range</b>, and object dynamics to <b style="color:var(--ink);">63%</b>. The limitation is therefore not that object dynamics improve slowly with data, but that the level they improve toward lies far below that for hand dynamics.
       </p>
 
       <div id="ladder-comparisons" class="findings-extension" hidden>
@@ -330,7 +330,7 @@
           <div class="hero-mask-legend ladder-mask-legend" aria-label="Mask colours: hands overlap, object overlap, GT only, predicted only, mask conflict"><span><i class="hand-overlap"></i>Hands overlap</span><span><i class="object-overlap"></i>Object overlap</span><span><i class="gt"></i>GT only</span><span><i class="pr"></i>Predicted only</span><span><i class="conflict"></i>Mask conflict</span></div>
         </div>
         <div id="ladder-gallery" class="comparison-gallery ladder-gallery"></div>
-        <p class="ladder-conclusion">With skeleton conditioning, hand fidelity stays high across 300h–30k hours, while object fidelity remains lower and shows little improvement from 3k to 30k hours.</p>
+        <p class="ladder-conclusion">With skeleton conditioning, hand dynamics stays high across 300h–30k hours, while object dynamics remains lower and shows little improvement from 3k to 30k hours.</p>
       </div>
     </section>
 
@@ -339,15 +339,15 @@
     <section id="design">
       <div class="section-head">
         <div class="num">03 · Design</div>
-        <h2>Can object interaction modeling <em>be improved?</em></h2>
+        <h2>Can we better predict <em>how objects respond to the hands?</em></h2>
         <p class="lede">
-          We focus training on the parts of the scene that change during an interaction. This improves object fidelity at every training budget, though a substantial gap remains.
+          We focus training on the parts of the scene that change during an interaction. This improves object dynamics at every training budget, though a substantial gap remains.
         </p>
       </div>
 
       <!-- Dynamic noise -->
       <div class="design-block">
-        <h3>Object-centric adaptive noise scheduling</h3>
+        <h3>Focus training on moving regions</h3>
         <p class="desc">
           We identify moving regions using 3D motion, tracking reliability and proximity to the hands. Adding more noise in these regions makes the model predict how they change, instead of copying their appearance. Loss reweighting brings a further improvement and is included in our final model.
         </p>
@@ -362,7 +362,7 @@
 
         <!-- KEY result: object SCS across scales (full width, interactive) -->
           <div class="plot-card design-plot">
-          <div class="head"><h3><span class="series-dot ours-dot"></span>Object fidelity across scales</h3><span class="chart-badge">Object SCS ↑</span></div>
+          <div class="head"><h3><span class="series-dot ours-dot"></span>Object dynamics with more training data</h3><span class="chart-badge">Object SCS ↑</span></div>
           <div class="plot-readout"><span id="score-ours">0.546</span><div><span>Object SCS ↑</span><span class="plot-trend" id="trend-ours">30k hours</span></div></div>
           <svg id="plot-object-ours"></svg>
           <div class="legend mono" id="legend-ours"></div>
@@ -372,7 +372,7 @@
 
         <div class="comparison-gallery" id="model-comparison">
           <div class="comparison-viewer" id="comparison-agent-fidelity" data-comparison>
-            <div class="comparison-heading"><h3 class="comparison-title">Improved agent fidelity</h3></div>
+            <div class="comparison-heading"><h3 class="comparison-title">Improved hand dynamics</h3></div>
             <div class="comparison-panels">
               <figure><figcaption><span class="comparison-dot gt-dot"></span><b>GT</b></figcaption><div class="comparison-video-frame"><video src="videos/compare-agent-fidelity-gt.mp4" data-poster="img/compare-agent-fidelity-gt.jpg" muted playsinline preload="none" data-comparison-model="gt" aria-label="GT: package handling"></video></div><p>Ground truth.</p></figure>
               <figure><figcaption><span class="comparison-dot cosmos-dot"></span><b>Cosmos 3</b></figcaption><div class="comparison-video-frame"><video src="videos/compare-agent-fidelity-cosmos.mp4" data-poster="img/compare-agent-fidelity-cosmos.jpg" muted playsinline preload="none" data-comparison-model="cosmos" aria-label="Cosmos 3: package handling"></video></div><p>Cosmos 3 fails to capture the right hand’s motion.</p></figure>
@@ -412,7 +412,7 @@
         <div class="num">04 · Failure modes</div>
         <h2>Remaining <em>failure modes</em>.</h2>
         <p class="lede">
-          Even with better agent fidelity, models can miss what happens after contact: an object may stay in place, change shape, or fail to follow the hand.
+          Even with better hand dynamics, models can miss what happens after contact: an object may stay in place, change shape, or fail to follow the hand.
         </p>
       </div>
 
@@ -514,7 +514,7 @@
       </div>
 
       <p class="section-note">
-        All variants reach higher absolute object fidelity in this simulated setting, where objects are rigid and relatively large. The failures below show that predicting the outcome of contact remains difficult.
+        All variants reach higher absolute object dynamics in this simulated setting, where objects are rigid and relatively large. The failures below show that predicting the outcome of contact remains difficult.
       </p>
 
       <!-- successful matches -->
@@ -585,7 +585,7 @@
 <script src="js/qualitative-data.js?v=20261008-skeleton-four-column-v5"></script>
 <script src="js/qualitative-ui.js?v=20261008-skeleton-four-column-v5"></script>
 <script src="js/teaser-scaling.js"></script>
-<script src="js/scaling.js?v=20261008-appearance-collapse"></script>
+<script src="js/scaling.js?v=20261008-hands-objects"></script>
 <script src="js/dataset.js"></script>
 <script src="js/playback.js"></script>
 <script src="js/main.js?v=20261008-findings"></script>

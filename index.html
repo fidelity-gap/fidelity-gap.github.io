@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20261008-bbox-zoom-v3">
+  <link rel="stylesheet" href="css/style.css?v=20261008-paper-feedback">
   <style>.site-header { top: env(safe-area-inset-top, 0px); } .paper-ref { font-size: 12px; color: var(--ink-dim); }</style>
 <style>
 /* Highlighted words: colour only, no italic serif */
@@ -141,7 +141,9 @@
             <p class="media-status comparison-status" role="status" hidden></p>
           </div>
         </div>
-
+        <figcaption class="hero-takeaway">
+          <strong>Ego-centric data scaling reaches high agent fidelity, but the effect of the agent’s actions on the world lags far behind.</strong> The hands land almost exactly where they belong — the paper they are folding does not.
+        </figcaption>
       </figure>
 
 
@@ -151,9 +153,9 @@
     <section id="dataset">
       <div class="section-head">
         <div class="num">01 · Dataset</div>
-        <h2>30,012 hours of <em>first-person video</em>.</h2>
+        <h2>30,012 hours of <em>ego-centric data</em>.</h2>
         <p class="lede">
-          We train all models on a large-scale ego-centric dataset of everyday human manipulation: 1.15M first-person clips totalling 30k hours (3.24 × 10<sup>9</sup> frames at 30 fps, mean clip length 94 s), each recording a manipulation activity from a head-mounted camera.
+          Our dataset follows everyday tasks from the person’s point of view, recording how their hands move and interact with objects. It brings together 1.15M clips from 14,019 contributors, spanning 32,051 tasks.
         </p>
       </div>
 
@@ -212,7 +214,7 @@
         <div class="num">02 · Findings</div>
         <h2>Scaling brings the agent near saturation but <em>leaves object interaction far behind</em>.</h2>
         <p class="lede">
-          Because we ask whether generic models of object dynamics can be learned from ego-centric human video, we evaluate out of distribution. Our evaluation set comes from a separate recording campaign: none of its sessions appear in training, and since platform, operators and sites all differ, no location or participant is shared. 37% of its environment categories, accounting for a quarter of its clips, never appear in training.
+          More data makes the agent’s motion increasingly accurate, but the objects it acts on remain much harder to predict. We test this gap on recordings from new participants and locations, with no sessions shared with training.
         </p>
       </div>
 
@@ -289,7 +291,7 @@
         </div>
       </div>
 
-      <p style="font-size:13px;color:var(--ink-dim);margin:32px 0 0;">
+      <p class="section-note">
         Normalized by the maximum score each category can attain, the agent converges to <b style="color:var(--ink);">86% of its measurable range</b>, and objects to <b style="color:var(--ink);">63%</b>. The limitation is therefore not that object dynamics improve slowly with data, but that the level they improve toward lies far below the agent&rsquo;s.
       </p>
 
@@ -305,9 +307,9 @@
     <section id="design">
       <div class="section-head">
         <div class="num">03 · Design</div>
-        <h2>Can the object ceiling <em>be moved?</em></h2>
+        <h2>Can object interaction modeling <em>be improved?</em></h2>
         <p class="lede">
-          The previous section established a low limit on object fidelity that additional data is unlikely to overcome. We now ask whether changing the supervision can.
+          We focus training on the parts of the scene that change during an interaction. This improves object fidelity at every training budget, though a substantial gap remains.
         </p>
       </div>
 
@@ -315,7 +317,7 @@
       <div class="design-block">
         <h3>Object-centric adaptive noise scheduling</h3>
         <p class="desc">
-          Combining each point’s 3D displacement and tracking reliability with a soft spatial prior around the projected hands, and expanding the resulting scores over neighbouring latent cells, yields a dynamic region map. Within these regions we raise the noise level, so the denoising target can no longer be satisfied by propagating local appearance and must be predicted from context and dynamics. Reweighting adds a small further improvement in combination at no extra cost, so we include it in our final configuration.
+          We identify moving regions using 3D motion, tracking reliability and proximity to the hands. Adding more noise in these regions makes the model predict how they change, instead of copying their appearance. Loss reweighting brings a further improvement and is included in our final model.
         </p>
 
         <div class="findings-toolbar design-toolbar">
@@ -378,7 +380,7 @@
         <div class="num">04 · Failure modes</div>
         <h2>Remaining <em>failure modes</em>.</h2>
         <p class="lede">
-          Our method improves agent fidelity and some aspects of object interaction, as the comparisons above show, but several failure modes remain. Below are examples of each.
+          Even with better agent fidelity, models can miss what happens after contact: an object may stay in place, change shape, or fail to follow the hand.
         </p>
       </div>
 
@@ -444,7 +446,7 @@
         </div>
       </div>
 
-      <p style="font-size:13px;color:var(--ink-dim);margin:32px 0 0;">
+      <p class="section-note">
         Two factors plausibly explain what remains. First, <b style="color:var(--ink);">irreducible uncertainty</b>: how an object responds to contact depends on mass, friction and stiffness, none perfectly recoverable from a single frame. Second, <b style="color:var(--ink);">the parts that matter most are not observable in pixels at all</b>: contacts and forces are never visible, and the object geometry under the hand is exactly what the hand occludes.
       </p>
     </section>
@@ -456,9 +458,32 @@
         <div class="num">05 · Humanoid transfer</div>
         <h2>Transfer to <em>humanoids</em>.</h2>
         <p class="lede">
-          We fine-tune Cosmos 3 Nano on ground-truth demonstrations from 11 tasks from the simulated bimanual benchmark of Yang et al. (2025), conditioning on a single start frame and the 138-dimensional humanoid state trajectory and predicting the following 16 frames (17 total at 10 Hz). All evaluations are performed on EgoVLA policy rollouts rather than demonstrations.
+          Training on human video improves humanoid predictions, and our full approach improves them further. The model better reproduces both successful and unsuccessful interactions, but still misses some object responses after contact.
         </p>
       </div>
+
+      <div class="evaluation-summary">
+        <h3>Humanoid transfer results</h3>
+        <p>We fine-tune Cosmos 3 Nano on demonstrations from 11 tasks in the simulated bimanual benchmark of Yang et al. (2025) and evaluate on EgoVLA policy rollouts. Success agreement measures whether the predicted outcome matches the simulator over selected 17-frame clips.</p>
+
+      </div>
+      <div class="table-scroll" role="region" aria-label="Humanoid evaluation metrics" tabindex="0">
+      <table class="metric-table">
+        <caption class="sr-only">Humanoid evaluation by model variant. Success agreement concerns selected 17-frame windows, not whole episodes.</caption>
+        <thead>
+          <tr><th>Variant</th><th>Hand SCS ↑</th><th>Object SCS ↑</th><th>Success agreement ↑</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Cosmos 3 (released)</td><td>0.63</td><td>0.70</td><td>0.67</td></tr>
+          <tr><td>+HUMAN (30k hours)</td><td>0.70<span class="delta">+0.07</span></td><td>0.73<span class="delta">+0.03</span></td><td>0.71<span class="delta">+0.04</span></td></tr>
+          <tr class="ours"><td>Ours</td><td>0.88<span class="delta">+0.17</span></td><td>0.79<span class="delta">+0.06</span></td><td>0.81<span class="delta">+0.10</span></td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <p class="section-note">
+        All variants reach higher absolute object fidelity in this simulated setting, where objects are rigid and relatively large. The failures below show that predicting the outcome of contact remains difficult.
+      </p>
 
       <!-- successful matches -->
       <div class="humanoid-block">
@@ -500,29 +525,6 @@
         </div>
       </div>
 
-      <div class="evaluation-summary">
-        <h3>Success agreement</h3>
-        <p>From each EgoVLA rollout we extract the 17 frames in which the task outcome is decided, e.g. the moment an object is released, a target is reached, or the simulator records success. We replay that clip’s actions through each variant and render the prediction.</p>
-        <p>The verdict is therefore about the window, not the episode. Seven of the eleven tasks have such a decisive moment: Close-Drawer, Insert-Cans, Open-Laptop, Pour-Balls, Push-Box, Sort-Cans and Stack-Can. The review covers six clips per task, 42 in total, with one reviewer and one seed per variant.</p>
-
-      </div>
-      <div class="table-scroll" role="region" aria-label="Humanoid evaluation metrics" tabindex="0">
-      <table class="metric-table">
-        <caption class="sr-only">Humanoid evaluation by model variant. Success agreement concerns selected 17-frame windows, not whole episodes.</caption>
-        <thead>
-          <tr><th>Variant</th><th>Hand SCS ↑</th><th>Object SCS ↑</th><th>Success agreement ↑</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Cosmos 3 (released)</td><td>0.63</td><td>0.70</td><td>0.67</td></tr>
-          <tr><td>+HUMAN (30k hours)</td><td>0.70<span class="delta">+0.07</span></td><td>0.73<span class="delta">+0.03</span></td><td>0.71<span class="delta">+0.04</span></td></tr>
-          <tr class="ours"><td>Ours</td><td>0.88<span class="delta">+0.17</span></td><td>0.79<span class="delta">+0.06</span></td><td>0.81<span class="delta">+0.10</span></td></tr>
-        </tbody>
-      </table>
-      </div>
-
-      <p style="font-size:13px;color:var(--ink-dim);margin:28px 0 0;">
-        Object fidelity is high in absolute terms for every variant (0.70–0.79), which we attribute to the simulated environment: its objects are rigid and relatively large, so the conditions that make object dynamics hard in ego-centric human video are largely absent. Conclusions about interaction fidelity thus depend heavily on the difficulty of the evaluation setting.
-      </p>
     </section>
 
 

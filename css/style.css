@@ -854,7 +854,10 @@ h2, h3, .metric-heading .stat-label { text-wrap: balance; }
 :root .page .sequence-toolbar { margin-top: 6px; }
 
 /* Measured regional appearance and matched training-scale comparisons. */
-.ladder-mask-legend { justify-content: flex-end; gap: 6px 12px; margin-top: 14px; font-size: 11px; }
+.ladder-legend-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px 20px; margin: 14px 0; }
+.ladder-model-label { font-family: var(--mono); font-size: 12px; color: var(--ink-dim); white-space: nowrap; }
+.ladder-legend-row .ladder-mask-legend { flex-basis: auto; justify-content: flex-end; gap: 6px 12px; margin: 0; font-size: 11px; }
+.ladder-conclusion { margin: 18px 0 0; font-size: 14px; line-height: 1.7; color: var(--ink-dim); }
 .ladder-mask-legend i.hand-overlap { background: #c3d9ea; }
 .ladder-mask-legend i.object-overlap { background: #f4d9c3; }
 .ladder-mask-legend i.conflict { background: repeating-linear-gradient(135deg, #dc5a7f 0 3px, #7062bb 3px 6px); }
@@ -872,7 +875,7 @@ h2, h3, .metric-heading .stat-label { text-wrap: balance; }
 #ladder-tabs .tab { white-space: nowrap; }
 .ladder-gallery { display: block; margin-top: 0; }
 .ladder-gallery > .ladder-comparison { border: 0; border-radius: 0; background: transparent; overflow: visible; }
-.ladder-gallery .comparison-panels { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; padding: 0; }
+.ladder-gallery .comparison-panels { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; padding: 0; }
 .ladder-gallery .comparison-panels video { aspect-ratio: 720 / 406; object-fit: contain; }
 .scale-dot { background: var(--fig-nano); }
 .ladder-playback { grid-column: 1 / -1; margin: 0; }
@@ -884,3 +887,14 @@ h2, h3, .metric-heading .stat-label { text-wrap: balance; }
   .ladder-gallery .comparison-panels figcaption { gap: 5px; padding-bottom: 8px; }
   .ladder-gallery .comparison-panels figcaption b { font-size: 11px; }
 }
+
+/* SCS metric explainer (Findings) */
+.metric-block { padding-top: 28px; margin-bottom: 36px; border-top: 1px solid var(--line); }
+.metric-title { font-size: 20px; font-weight: 500; letter-spacing: -.02em; margin-bottom: 12px; }
+.metric-title .mono { color: var(--accent); }
+.metric-lede { font-size: 15px; line-height: 1.8; color: var(--ink-dim); max-width: 950px; }
+.metric-cite { color: var(--ink); }
+.metric-details { margin-top: 20px; }
+.metric-steps { margin-top: 20px; }
+.metric-steps .d b { font-weight: 500; color: var(--ink); }
+.metric-block .metric-note { margin: 14px 0 0; }

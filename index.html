@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20261009-partner">
+  <link rel="stylesheet" href="css/style.css?v=20261009-cosmos-green2">
   <style>.site-header { top: env(safe-area-inset-top, 0px); } .paper-ref { font-size: 12px; color: var(--ink-dim); }</style>
 <style>
 /* Highlighted words: colour only, no italic serif */
@@ -216,7 +216,7 @@
         <div class="num">02 · Findings</div>
         <h2>Scaling brings the agent near saturation but <em>leaves object interaction far behind</em>.</h2>
         <p class="lede">
-          We fine-tune Cosmos 3 Edge (4B), Nano (16B) and Super (64B) on our data. Each model sees one first-person frame and the motion of the person's hands, then generates the next 16 frames (1.6 s). We score the <b>agent</b> (the person's hands) and the <b>objects</b> they handle separately, on clips recorded with different people, places and cameras than those used in training. To see what more data would bring, we fit a scaling curve to each result and extend it beyond 30k hours (dotted lines). We then use <b>skeleton conditioning</b> as an instrument for locating the object limit. It additionally supplies the 3D hand and body keypoints recorded with each clip, drawn as a skeleton projected onto the image, so the model no longer has to infer where the hands appear in the frame, and the hands reach their limit with far less data.
+          We fine-tune <a class="cosmos-link" href="https://research.nvidia.com/labs/cosmos-lab/cosmos3/" target="_blank" rel="noopener">Cosmos 3</a> Edge (4B), Nano (16B) and Super (64B) on 30k hours of ego-centric video. Each model sees one first-person frame and the motion of the person's hands, then generates the next 16 frames (1.6 s). We score the <b>agent</b> (the person's hands) and the <b>objects</b> they handle separately, on clips recorded with different people, places and cameras than those used in training. To see what more data would bring, we fit a scaling curve to each result and extend it beyond 30k hours (dotted lines). We then use <b>skeleton conditioning</b> as an instrument for locating the object limit. It additionally supplies the 3D hand and body keypoints recorded with each clip, drawn as a skeleton projected onto the image, so the model no longer has to infer where the hands appear in the frame, and the hands reach their limit with far less data.
         </p>
       </div>
 

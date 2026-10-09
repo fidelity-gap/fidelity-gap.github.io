@@ -213,7 +213,7 @@
         <div class="num">02 · Findings</div>
         <h2>More data gets the hands right, but <em>not the objects they handle</em>.</h2>
         <p class="lede">
-          Our models see one first-person frame and the motion of the person's arms and hands, then generate the next 16 frames (1.6 s). We score the <b>agent</b> (the person's hands) and the <b>objects</b> they handle separately, on clips recorded with different people, places and cameras than training. To see what more data would bring, we fit a scaling curve to each result and extend it beyond 30k hours (dotted lines). We also use <b>skeleton conditioning</b> as a measurement tool: giving the model the person's arm and hand pose gets the hands right with far less data, so the object curve then reflects the objects alone, not improvements in the hands.
+          Our models see one first-person frame and the motion of the person's arms and hands, then generate the next 16 frames (1.6 s). We score the <b>agent</b> (the person's hands) and the <b>objects</b> they handle separately, on clips recorded with different people, places and cameras than training. To see what more data would bring, we fit a scaling curve to each result and extend it beyond 30k hours (dotted lines). We then use <b>skeleton conditioning</b>, which gives the model the person's arm and hand pose, as an instrument for locating the object limit: it gets the hands right with far less data.
         </p>
       </div>
 

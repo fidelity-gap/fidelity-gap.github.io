@@ -461,6 +461,10 @@ footer { border-top: 1px solid var(--line); padding: 60px 0 30px; }
 .cosmos-dot { background: #b297af; }
 .ours-dot { background: #66895d; }
 .comparison-panels video { aspect-ratio: 720 / 406; border-radius: 4px; }
+.dynamic-dot { background: #d97827; }
+.dynamic-region-viewer { margin: 0 0 34px; }
+.dynamic-region-viewer .comparison-panels { --comparison-columns: 3 !important; }
+.dynamic-region-overlay .dynamic-region-mask { position: absolute; inset: 0; width: 100%; mix-blend-mode: multiply; opacity: .72; pointer-events: none; }
 
 .comparison-panels p { color: #75806c; font-size: 11px; line-height: 1.75; padding: 13px 2px 20px; }
 .comparison-playback { position: absolute; right: 10px; bottom: 34px; }

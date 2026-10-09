@@ -154,7 +154,7 @@
         <div class="num">01 · Dataset</div>
         <h2>30,012 hours of <em>first-person video</em>.</h2>
         <p class="lede">
-          We train all models on a large-scale ego-centric dataset of everyday human manipulation: 1.15M first-person clips totalling 30k hours (3.24 × 10<sup>9</sup> frames at 30 fps, mean clip length 94 s), each recording a manipulation activity from a head-mounted camera.
+          We train all models on a large-scale ego-centric dataset of everyday human manipulation. It contains 1.15M first-person clips totalling 30k hours, or 3.24 × 10<sup>9</sup> frames at 30 fps, with a mean clip length of 94 s. Each clip captures a manipulation activity from a head-mounted camera.
         </p>
       </div>
 
@@ -170,8 +170,8 @@
             <div class="metric-heading"><span class="stat-num" aria-label="30,012h"><span data-count="30012" data-decimals="0" aria-hidden="true">30,012</span><span class="unit" aria-hidden="true">h</span></span><span class="stat-label">First-person video</span></div>
           </div>
           <div class="metric-card metric-clips">
-            <span class="metric-index">02 / Recordings</span>
-            <div class="metric-heading"><span class="stat-num" aria-label="1,146,100 clips"><span data-count="1.1461" data-decimals="2" aria-hidden="true">1.15</span><span class="unit" aria-hidden="true">M</span></span><span class="stat-label">Clips · mean <span class="nowrap">94.3 seconds</span></span></div>
+            <span class="metric-index">02 / Clips</span>
+            <div class="metric-heading"><span class="stat-num" aria-label="1,146,100 clips"><span data-count="1.1461" data-decimals="2" aria-hidden="true">1.15</span><span class="unit" aria-hidden="true">M</span></span><span class="stat-label">mean <span class="nowrap">94.3 seconds</span></span></div>
           </div>
           <div class="metric-card metric-tasks">
             <span class="metric-index">03 / Diversity</span>
@@ -213,7 +213,7 @@
         <div class="num">02 · Findings</div>
         <h2>More data gets the hands right, but <em>not the objects they handle</em>.</h2>
         <p class="lede">
-          Our models see one first-person frame and the motion of the person's arms and hands, then generate the next 16 frames (1.6 s). We score the <b>agent</b> (the person's hands) and the <b>objects</b> they handle separately, on clips recorded with different people, places and cameras than training. To see what more data would bring, we fit a scaling curve to each result and extend it beyond 30k hours (dotted lines). We then use <b>skeleton conditioning</b> as an instrument for locating the object limit. It additionally supplies these poses as a skeleton projected onto the image, so the model no longer has to infer where the hands appear in the frame, and the hands reach their limit with far less data.
+          Our models see one first-person frame and the motion of the person's arms and hands, then generate the next 16 frames (1.6 s). We score the <b>agent</b> (the person's hands) and the <b>objects</b> they handle separately, on clips recorded with different people, places and cameras than those used in training. To see what more data would bring, we fit a scaling curve to each result and extend it beyond 30k hours (dotted lines). We then use <b>skeleton conditioning</b> as an instrument for locating the object limit. It additionally supplies these poses as a skeleton projected onto the image, so the model no longer has to infer where the hands appear in the frame, and the hands reach their limit with far less data.
         </p>
       </div>
 
@@ -334,18 +334,18 @@
       <div class="takeaway">
         <div>
           <div class="k">Finding 1</div>
-          <div class="v">Conditioning saturates the agent with far less data.</div>
-          <div class="d">Supplying the projected skeleton lets <span class="mono">300</span> hours reach the agent fidelity that unconditioned training attains only at roughly <span class="mono">15k</span> hours &mdash; a <span class="mono">≈50×</span> reduction &mdash; and both designs converge to nearly the same limit (<span class="mono">0.800</span> and <span class="mono">0.811</span>).</div>
+          <div class="v">Skeleton conditioning helps models learn agent fidelity with less data.</div>
+          <div class="d">With <span class="mono">300</span> hours of training data, the skeleton-conditioned Nano variant reaches the agent fidelity that the baseline attains only at roughly <span class="mono">15k</span> hours, a reduction of about <span class="mono">50×</span>. Both converge to nearly the same level: <span class="mono">0.800</span> and <span class="mono">0.811</span> SCS, a difference of about <span class="mono">0.01</span>.</div>
         </div>
         <div>
           <div class="k">Finding 2</div>
-          <div class="v">With the agent saturated, object interaction converges far below it.</div>
+          <div class="v">Once agent fidelity saturates, object fidelity converges at a much lower level.</div>
           <div class="d">Object fidelity improves by only <span class="mono">0.09</span> SCS across two orders of magnitude and decelerates (<span class="mono">+0.056</span> from 300 to 3k hours, <span class="mono">+0.035</span> from 3k to 30k). Its fitted asymptote is <span class="mono">0.565</span>, of which <span class="mono">93%</span> is already realized at 30k hours.</div>
         </div>
         <div>
           <div class="k">Finding 3</div>
           <div class="v">Neither more data nor a larger model closes the gap.</div>
-          <div class="d">Scaling the model <span class="mono">4×</span> (Super) leaves agent fidelity virtually unchanged and raises the object ceiling by only <span class="mono">0.034</span> SCS; closing the remaining <span class="mono">0.205</span> to the agent ceiling at that rate would take roughly six more quadruplings.</div>
+          <div class="d">Scaling the model <span class="mono">4×</span> (Super) leaves agent fidelity virtually unchanged and raises the object ceiling by only <span class="mono">0.034</span> SCS; closing the remaining <span class="mono">0.205</span> to the agent fidelity ceiling at that rate would take roughly six more quadruplings.</div>
         </div>
       </div>
 
@@ -377,6 +377,16 @@
         <p class="desc">
           Combining each point’s 3D displacement and tracking reliability with a soft spatial prior around the projected hands, and expanding the resulting scores over neighbouring latent cells, yields a dynamic region map. Within these regions we raise the noise level, so the denoising target can no longer be satisfied by propagating local appearance and must be predicted from context and dynamics. Reweighting adds a small further improvement in combination at no extra cost, so we include it in our final configuration.
         </p>
+
+        <div class="comparison-viewer dynamic-region-viewer" id="dynamic-region-demo" data-comparison data-playback-rate="2">
+          <div class="comparison-heading"><h3 class="comparison-title">Dynamic region map</h3></div>
+          <div class="comparison-panels">
+            <figure><figcaption><span class="comparison-dot gt-dot"></span><b>GT</b></figcaption><div class="comparison-video-frame"><video src="videos/dynamic-region-gt.mp4" muted playsinline preload="metadata" data-comparison-model="gt" data-comparison-label="ground truth"></video></div><p>Input clip.</p></figure>
+            <figure><figcaption><span class="comparison-dot dynamic-dot"></span><b>Dynamic region map</b></figcaption><div class="comparison-video-frame"><video src="videos/dynamic-region-map.mp4" muted playsinline preload="metadata" data-comparison-model="map" data-comparison-label="dynamic region map"></video></div><p>Brighter regions receive more noise.</p></figure>
+            <figure><figcaption><span class="comparison-dot ours-dot"></span><b>Overlay</b></figcaption><div class="comparison-video-frame dynamic-region-overlay"><video src="videos/dynamic-region-gt.mp4" muted playsinline preload="metadata" data-comparison-model="gt" data-comparison-label="overlay"></video><video class="dynamic-region-mask" src="videos/dynamic-region-map.mp4" muted playsinline preload="metadata" data-comparison-model="map" data-comparison-label="overlay mask" aria-hidden="true" tabindex="-1"></video></div><p>Static regions dimmed.</p><div class="video-toolbar"><div class="comparison-playback"><div class="playback-cluster" role="group" aria-label="Dynamic region playback"><button class="playback-button" type="button" data-comparison-play data-playing="false" aria-label="Play dynamic region videos together" title="Play dynamic region videos together"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path class="playback-play-icon" d="M8 5v14l11-7z"/><path class="playback-pause-icon" d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg></button><button class="playback-button" type="button" data-comparison-replay aria-label="Replay dynamic region videos" title="Replay dynamic region videos"><svg class="replay-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M20 10a8 8 0 1 0 0 5M20 4v6h-6"/></svg></button><button class="playback-button" type="button" data-comparison-fullscreen aria-label="Full screen dynamic region map" title="Full screen dynamic region map"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M9 4H4v5m11-5h5v5M4 15v5h5m11-5v5h-5"/></svg></button></div></div><input class="video-seek" type="range" data-comparison-seek min="0" max="1000" value="0" aria-label="Seek dynamic region videos together"></div></figure>
+          </div>
+          <p class="media-status comparison-status" role="status" hidden></p>
+        </div>
 
         <div class="findings-toolbar design-toolbar">
           <div class="layer-buttons">

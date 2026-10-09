@@ -224,6 +224,8 @@
     const seek = root.querySelector('[data-comparison-seek]');
     const status = root.querySelector('.comparison-status');
     let playing = false, frame, request, position = 0;
+    // Optional data-playback-rate speeds up a comparison; the clock shows playback time.
+    const rate = Number(root.dataset.playbackRate) || 1;
     const time = addVideoTime(seek.parentElement, seek);
     const panels = root.querySelector('.comparison-panels');
     panels.style.setProperty('--comparison-columns', videos.length);
@@ -233,8 +235,8 @@
       const duration = Number.isFinite(leader.duration) ? leader.duration : 0;
       const current = duration ? leader.currentTime : 0;
       seek.value = duration ? Math.round(current / duration * 1000) : position * 1000;
-      seek.setAttribute('aria-valuetext', `${clock(current)} of ${clock(duration)}`);
-      time.update(current, duration);
+      seek.setAttribute('aria-valuetext', `${clock(current / rate)} of ${clock(duration / rate)}`);
+      time.update(current / rate, duration / rate);
     }
     function label() {
       setPlayState(playButton, playing, 'comparison videos together');
@@ -246,7 +248,7 @@
     function tick() {
       if (!playing) return;
       videos.slice(1).forEach(video => {
-        if (!video.seeking && video.readyState >= 2 && Math.abs(video.currentTime - leader.currentTime) > .08) video.currentTime = leader.currentTime;
+        if (!video.seeking && video.readyState >= 2 && Math.abs(video.currentTime - leader.currentTime) > .08 * rate) video.currentTime = leader.currentTime;
       });
       update(); frame = requestAnimationFrame(tick);
     }
@@ -259,7 +261,7 @@
       root.setAttribute('aria-busy', 'true'); showStatus('Loading comparison…');
       await Promise.all(videos.map(video => ready(video, controller.signal)));
       if (controller.signal.aborted) return;
-      videos.forEach(video => { video.playbackRate = 1; });
+      videos.forEach(video => { video.playbackRate = rate; });
       root.setAttribute('aria-busy', 'false'); showStatus('');
     }
     function loadFailure(error, controller) {

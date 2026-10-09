@@ -451,10 +451,10 @@ function renderFindings() {
     updateReadout(category, series.points.at(-1)[1], 'Nano · 30k hours');
   });
   document.getElementById('callout-hand').innerHTML = state.skeleton
-      ? `<b>Conditioning changes when the agent’s limit is reached, not what it is.</b> With 300 hours, the skeleton-conditioned Nano variant reaches agent fidelity the baseline attains only at roughly 15k hours—a ~50× reduction in data. The two designs converge to about 0.01 SCS of one another (0.811 and 0.800).`
+      ? `<b>Skeleton conditioning improves sample efficiency when learning agent fidelity.</b> With 300 hours of training data, the skeleton-conditioned Nano variant reaches the agent fidelity that the baseline attains only at roughly 15k hours, a reduction of about 50×. Both converge to nearly the same level: 0.800 and 0.811 SCS, a difference of about 0.01.`
       : `The Nano curve gains 0.12 SCS between 300 and 3k hours but only 0.06 between 3k and 30k hours. Its fitted asymptote is 0.811.`;
   document.getElementById('callout-object').innerHTML = state.skeleton
-      ? `The fitted object asymptote is <b>0.565</b>, of which the model has already realized <b>93%</b> at 30k hours.`
+      ? `<b>Object fidelity improves slowly, and the gains shrink as data grows:</b> +0.056 SCS from 300 to 3k hours, but only +0.035 from 3k to 30k. The fitted scaling curve levels off at <b>0.565</b> SCS. At 30k hours the model already scores 0.527, or <b>93%</b> of that limit. Further data would add at most about 0.04 SCS, leaving objects far below the agent's ≈0.80.`
       : `Without skeleton conditioning, the object curves show no visible curvature over this range, so their asymptotes are not yet constrained.`;
   renderRegionLpips(keys);
 }

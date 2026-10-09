@@ -106,10 +106,10 @@
         </div>
 
         <div class="actions">
-          <button class="btn primary" type="button" disabled aria-disabled="true">
+          <a class="btn primary" href="https://arxiv.org/abs/2610.12464" target="_blank" rel="noopener">
             <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            Paper (coming soon)
-          </button>
+            Paper
+          </a>
           <a class="btn" aria-disabled="true" tabindex="-1">
             <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
             Code (soon)
@@ -213,7 +213,7 @@
         <div class="num">02 · Findings</div>
         <h2>More data gets the hands right, but <em>not the objects they handle</em>.</h2>
         <p class="lede">
-          Our models see one first-person frame and the motion of the person's arms and hands, then generate the next 16 frames (1.6 s) of video. We score two things separately: the <b>agent</b>, meaning the person's own hands, and the <b>objects</b> those hands pick up, push or fold. As training grows from 300 to 30,000 hours of video, the hands get close to the best the models reach, while the objects improve slowly and stay far behind. Every test clip comes from a separate recording campaign, with different people, places and cameras than training.
+          Our models see one first-person frame and the motion of the person's arms and hands, then generate the next 16 frames (1.6 s) of video. We score two things separately: the <b>agent</b>, meaning the person's own hands, and the <b>objects</b> those hands pick up, push or fold. To see where each curve is heading beyond 30,000 hours, we fit the saturating form <span class="mono">S&nbsp;&minus;&nbsp;c&middot;D<sup>&minus;&alpha;</sup></span> standard in scaling-law analyses (dotted extensions). The hand curve visibly flattens, placing its limit at <span class="mono">0.811</span> SCS. The object curve shows no such bend in our range, so its limit cannot be read off directly. We therefore use <b>skeleton conditioning</b>, which gives the model the person&rsquo;s projected arm and hand pose, as a measurement tool: it brings the hands to their limit with far less data, so the object curve is no longer confounded by improving hands. Measured this way, objects level off at <span class="mono">0.565</span>, far below the hands. Every test clip comes from a separate recording campaign, with different people, places and cameras than training.
         </p>
       </div>
 
@@ -596,7 +596,11 @@
   author = {Dong, Jiahua and Bagchi, Anurag and Jangir, Yash and Irshad, Muhammad Zubair
             and Zakharov, Sergey and Hebert, Martial and Bharadhwaj, Homanga
             and Wang, Yu-Xiong and Guizilini, Vitor Campagnolo and Tokmakov, Pavel},
-  year   = {2026}
+  year   = {2026},
+  eprint = {2610.12464},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CV},
+  url    = {https://arxiv.org/abs/2610.12464}
 }</pre>
       <p class="citation-status" role="status"></p>
       </div>

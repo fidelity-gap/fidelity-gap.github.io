@@ -286,7 +286,15 @@
         cancelAnimationFrame(frame); frame = requestAnimationFrame(tick);
       } catch (error) { loadFailure(error, controller); }
     }
-    const toggle = () => { if (playing) { pause(); showStatus(''); } else play(); };
+    // Optional data-autoplay starts the comparison whenever it is in view,
+    // unless the reader paused it or page motion is off.
+    const autoplay = 'autoplay' in root.dataset;
+    let visible = false, userPaused = false;
+    const autoStart = () => { if (autoplay && visible && !userPaused && autoAllowed()) play(); };
+    const toggle = () => {
+      userPaused = playing;
+      if (playing) { pause(); showStatus(''); } else play();
+    };
     playButton.addEventListener('click', toggle);
     videos.forEach(video => {
       video.setAttribute('role', 'button'); video.tabIndex = 0;
@@ -314,7 +322,7 @@
       } catch (error) { loadFailure(error, controller); }
     }
     seek.addEventListener('input', () => { const value = Number(seek.value) / 1000; seekTo(value); });
-    root.querySelector('[data-comparison-replay]').addEventListener('click', async () => { await seekTo(0); if (!request?.signal.aborted) play(); });
+    root.querySelector('[data-comparison-replay]').addEventListener('click', async () => { userPaused = false; await seekTo(0); if (!request?.signal.aborted) play(); });
     leader.addEventListener('ended', () => {
       if (!playing) return;
       // Figure 1 plays each sample once and holds its last frame.
@@ -337,10 +345,14 @@
       new IntersectionObserver(entries => {
         if (!entries[0].isIntersecting && !root.contains(document.fullscreenElement)) pause();
       }, { threshold: 0 }).observe(root);
+      if (autoplay) new IntersectionObserver(entries => {
+        visible = entries[0].isIntersecting;
+        autoStart();
+      }, { threshold: .5 }).observe(root);
     }
-    document.addEventListener('visibilitychange', () => { if (document.hidden) pause(); });
+    document.addEventListener('visibilitychange', () => { if (document.hidden) pause(); else autoStart(); });
     root.addEventListener('comparison:hide', pause);
-    document.addEventListener('site:motion', () => { if (!autoAllowed()) pause(); });
+    document.addEventListener('site:motion', () => { if (!autoAllowed()) pause(); else autoStart(); });
     label(); update();
   }
 

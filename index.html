@@ -211,9 +211,9 @@
     <section id="findings">
       <div class="section-head">
         <div class="num">02 · Findings</div>
-        <h2>More data gets the hands right, but <em>not the objects they handle</em>.</h2>
+        <h2>Scaling brings the agent near saturation but <em>leaves object interaction far behind</em>.</h2>
         <p class="lede">
-          Our models see one first-person frame and the motion of the person's arms and hands, then generate the next 16 frames (1.6 s). We score the <b>agent</b> (the person's hands) and the <b>objects</b> they handle separately, on clips recorded with different people, places and cameras than those used in training. To see what more data would bring, we fit a scaling curve to each result and extend it beyond 30k hours (dotted lines). We then use <b>skeleton conditioning</b> as an instrument for locating the object limit. It additionally supplies these poses as a skeleton projected onto the image, so the model no longer has to infer where the hands appear in the frame, and the hands reach their limit with far less data.
+          Our models see one first-person frame and the motion of the person's hands, then generate the next 16 frames (1.6 s). We score the <b>agent</b> (the person's hands) and the <b>objects</b> they handle separately, on clips recorded with different people, places and cameras than those used in training. To see what more data would bring, we fit a scaling curve to each result and extend it beyond 30k hours (dotted lines). We then use <b>skeleton conditioning</b> as an instrument for locating the object limit. It additionally supplies the 3D hand and body keypoints recorded with each clip, drawn as a skeleton projected onto the image, so the model no longer has to infer where the hands appear in the frame, and the hands reach their limit with far less data.
         </p>
       </div>
 
@@ -345,7 +345,7 @@
         <div>
           <div class="k">Finding 3</div>
           <div class="v">Neither more data nor a larger model closes the gap.</div>
-          <div class="d">Scaling the model <span class="mono">4×</span> (Super) leaves agent fidelity virtually unchanged and raises the object ceiling by only <span class="mono">0.034</span> SCS; closing the remaining <span class="mono">0.205</span> to the agent fidelity ceiling at that rate would take roughly six more quadruplings.</div>
+          <div class="d">Scaling the model <span class="mono">4×</span> (Super) leaves agent fidelity virtually unchanged and raises the object ceiling by only <span class="mono">0.034</span> SCS; closing the remaining <span class="mono">0.205</span> to the agent fidelity ceiling at that rate would take roughly six more <span class="mono">4×</span> increases in model size.</div>
         </div>
       </div>
 
@@ -378,7 +378,7 @@
           Combining each point’s 3D displacement and tracking reliability with a soft spatial prior around the projected hands, and expanding the resulting scores over neighbouring latent cells, yields a dynamic region map. Within these regions we raise the noise level, so the denoising target can no longer be satisfied by propagating local appearance and must be predicted from context and dynamics. Reweighting adds a small further improvement in combination at no extra cost, so we include it in our final configuration.
         </p>
 
-        <div class="comparison-viewer dynamic-region-viewer" id="dynamic-region-demo" data-comparison data-playback-rate="2">
+        <div class="comparison-viewer dynamic-region-viewer" id="dynamic-region-demo" data-comparison data-autoplay data-playback-rate="2">
           <div class="comparison-heading"><h3 class="comparison-title">Dynamic region map</h3></div>
           <div class="comparison-panels">
             <figure><figcaption><span class="comparison-dot gt-dot"></span><b>GT</b></figcaption><div class="comparison-video-frame"><video src="videos/dynamic-region-gt.mp4" muted playsinline preload="metadata" data-comparison-model="gt" data-comparison-label="ground truth"></video></div><p>Input clip.</p></figure>
@@ -622,16 +622,16 @@
 
 <script src="js/paper-data.js"></script>
 <script src="js/lpips-data.js"></script>
-<script src="js/lpips-fits.js?v=43ae0e91"></script>
+<script src="js/lpips-fits.js?v=20261009-baselines"></script>
 <script src="js/qualitative-data.js?v=20261008-skeleton-four-column-v5"></script>
 <script src="js/qualitative-ui.js?v=20261008-skeleton-four-column-v5"></script>
 <script src="js/teaser-scaling.js"></script>
-<script src="js/scaling.js?v=20261008-appearance-collapse"></script>
+<script src="js/scaling.js?v=20261009-lpips-baselines"></script>
 <script src="js/dataset.js"></script>
-<script src="js/playback.js"></script>
+<script src="js/playback.js?v=20261009-safari"></script>
 <script src="js/main.js?v=20261008-findings"></script>
 <script src="js/teaser-data.js"></script>
-<script src="js/media.js?v=20261008-findings"></script>
+<script src="js/media.js?v=20261009-autoplay"></script>
 <script src="js/scs-demo.js?v=20261008-scs2"></script>
 </body>
 </html>

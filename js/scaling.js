@@ -483,11 +483,26 @@ function renderRegionLpips(keys) {
     return fit?.n_observations === budgets.length && Number.isFinite(fit.asymptote) &&
       fit.asymptote >= 0 && fit.asymptote < Math.min(...data[category][method].points.map(point => point[1]));
   }));
-  // Include all measured points and fitted levels in one padded domain, keeping
-  // both panels and all layer-toggle states on exactly the same vertical scale.
+  // As in the SCS panels, agent baselines are projected too, without an asymptote.
+  const projectedMethods = { hand: [...fittedMethods, 'edge_baseline', 'nano_baseline'], object: fittedMethods };
+  const projectionsValid = fitsValid && Object.entries(projectedMethods).every(([category, list]) => list.every(method => {
+    const fit = fits[category]?.[method];
+    return fit?.n_observations === budgets.length && ['A', 'B', 'c'].every(name => Number.isFinite(fit.coefficients?.[name]));
+  }));
+  // Project the fitted curves from 30k to 1M hours, joined at the measured 30k point.
+  const projectionHours = Array.from({ length: 9 }, (_, index) => 30000 * (1000000 / 30000) ** (index / 8));
+  const project = (category, method) => {
+    const { A, B, c } = fits[category][method].coefficients;
+    return projectionHours.map((hours, index) => index ? [hours, A + B * (hours / 300) ** -c] : data[category][method].points.at(-1));
+  };
+  const projections = Object.fromEntries(['hand', 'object'].map(category => [category, Object.fromEntries(
+    projectionsValid ? projectedMethods[category].map(method => [method, project(category, method)]) : [])]));
+  // Include all measured points, fitted levels and projections in one padded domain,
+  // keeping both panels and all layer-toggle states on exactly the same vertical scale.
   const values = ['hand', 'object'].flatMap(category => methods.flatMap(method => [
     ...data[category][method].points.map(point => point[1]),
     ...(fitsValid && fittedMethods.includes(method) ? [fits[category][method].asymptote] : []),
+    ...(projections[category][method] || []).map(point => point[1]),
   ]));
   const minimum = Math.min(...values), maximum = Math.max(...values);
   const step = .05, padding = (maximum - minimum) * .04;
@@ -497,6 +512,7 @@ function renderRegionLpips(keys) {
   ['hand', 'object'].forEach(category => {
     const plotData = Object.fromEntries(methods.map(method => [method, {
       ...data[category][method],
+      ...(projections[category][method] ? { projected: projections[category][method] } : {}),
       ...(fitsValid && fittedMethods.includes(method) ? {
         asymptote: fits[category][method].asymptote,
       } : {}),
@@ -505,7 +521,7 @@ function renderRegionLpips(keys) {
       yDomain: [ticks[0], ticks.at(-1)], yTicks: ticks,
       yLabel: `${category === 'hand' ? 'Agent' : 'Object'} GT-mask LPIPS`,
       metricName: 'LPIPS', lowerIsBetter: true, seriesKeys: keys,
-      data: plotData, showExtrap: false, compactTicks: budgets,
+      data: plotData, showExtrap: state.extrap,
       asymptoteLabel: 'fitted asymptote',
     });
     const legend = document.getElementById(`legend-lpips-${category}`);
@@ -586,7 +602,7 @@ window.addEventListener('DOMContentLoaded', () => {
     ['Add skeleton conditioning', 'Remove skeleton conditioning'],
     findings.map(id => ({ id, keys: ['nano_skeleton', 'edge_skeleton', 'super_skeleton'] })));
   bindLayer('tog-extrap', state, 'extrap', renderFindings,
-    ['Extend to 1M hours', 'Remove 1M-hour projection'], ['plot-hand', 'plot-object'].map(id => ({ id, keys: null })));
+    ['Extend to 1M hours', 'Remove 1M-hour projection'], findings.map(id => ({ id, keys: null })));
   bindLayer('tog-ours', stateDesign, 'ours', renderDesign,
     ['Add dynamic-region supervision', 'Remove dynamic-region supervision'], [{ id: 'plot-object-ours', keys: ['nano_ours'] }]);
   bindLayer('tog-extrap-obj', stateDesign, 'extrap', renderDesign,

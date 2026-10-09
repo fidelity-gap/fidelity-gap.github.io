@@ -282,6 +282,26 @@ window.LPIPS_FITS = {
         "profile_note": "The 10%-of-minimum-SSE exponent range is an objective-function diagnostic, not a confidence interval.",
         "identification_note": "Five checkpoints and three fit parameters leave only two residual degrees of freedom; fitted A is not an established irreducible error floor."
       }
+    },
+    "edge_baseline": {
+      "coefficients": {
+        "A": 0.27113157089853074,
+        "B": 0.10015965890459143,
+        "c": 0.47961406738263074
+      },
+      "rmse": 0.0007401548812011089,
+      "n_observations": 5,
+      "projection_only": true
+    },
+    "nano_baseline": {
+      "coefficients": {
+        "A": 0.20973020518076238,
+        "B": 0.15601869200539017,
+        "c": 0.27159572119447595
+      },
+      "rmse": 0.0017631797570079276,
+      "n_observations": 5,
+      "projection_only": true
     }
   },
   "object": {
@@ -605,6 +625,7 @@ window.LPIPS_FITS = {
       "nano-skeleton",
       "super-skeleton"
     ],
-    "warning": "Model-dependent fitted asymptotes; not measured or statistically established error floors."
+    "warning": "Model-dependent fitted asymptotes; not measured or statistically established error floors.",
+    "baseline_projections": "Agent-panel baselines: same formula fitted to their five checkpoints and drawn only as a 1M-hour projection without an asymptote, matching the Agent SCS panel. Object baselines are not projected, matching the Object SCS panel."
   }
 };

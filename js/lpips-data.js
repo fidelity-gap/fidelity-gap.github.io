@@ -475,7 +475,7 @@ window.LPIPS_PLOTS = {
     }
   },
   "source": {
-    "definition": "LPIPS, averaged within ground-truth agent or object masks over the 16 predicted frames.",
+    "definition": "LPIPS, averaged within ground-truth hand or object masks over the 16 predicted frames.",
     "lower_is_better": true,
     "frame_indices": [
       1,

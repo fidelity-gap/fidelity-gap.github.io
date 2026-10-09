@@ -2,7 +2,7 @@
 const STYLE = {
   // Paper colour code: Figure 1 agent blue / object orange; Figures 4-5 colour by
   // model family (Edge blue, Nano red, Super green, Ours teal), dashed = baseline.
-  overview_agent: { color: 'var(--fig-agent)', dashed: false, label: 'Agent', family: 'nano' },
+  overview_agent: { color: 'var(--fig-agent)', dashed: false, label: 'Hands', family: 'nano' },
   overview_object: { color: 'var(--fig-object)', dashed: false, label: 'Object', family: 'nano' },
   nano_baseline: { color: 'var(--fig-nano)', dashed: true, label: 'Nano baseline', family: 'nano' },
   nano_skeleton: { color: 'var(--fig-nano)', dashed: false, label: 'Nano + skeleton', family: 'nano' },
@@ -428,7 +428,7 @@ function overviewHeight() {
 function renderOverview() {
   renderPlot(document.getElementById('plot-overview'), {
     yDomain: [.3, .85], yTicks: [.3, .4, .5, .6, .7, .8],
-    yLabel: 'Agent and object fidelity · Nano baseline',
+    yLabel: 'Hand and object fidelity · Nano baseline',
     seriesKeys: ['overview_agent', 'overview_object'], data: PAPER_PLOTS.overview,
     showExtrap: false, directLabels: true, exact: true,
     afterRender: decorateScaleStops, onReveal: revealScaleStops, compactTicks: SCALE_STOPS,
@@ -451,7 +451,7 @@ function renderFindings() {
     updateReadout(category, series.points.at(-1)[1], 'Nano · 30k hours');
   });
   document.getElementById('callout-hand').innerHTML = state.skeleton
-      ? `<b>Conditioning changes when the agent’s limit is reached, not what it is.</b> With 300 hours, the skeleton-conditioned Nano variant reaches agent fidelity the baseline attains only at roughly 15k hours—a ~50× reduction in data. The two designs converge to about 0.01 SCS of one another (0.811 and 0.800).`
+      ? `<b>Skeleton conditioning improves sample efficiency when learning hand fidelity.</b> With 300 hours of training data, the skeleton-conditioned Nano variant reaches the hand fidelity that the baseline attains only at roughly 15k hours, a reduction of about 50×. Both converge to nearly the same level: 0.800 and 0.811 SCS, a difference of about 0.01.`
       : `The Nano curve gains 0.12 SCS between 300 and 3k hours but only 0.06 between 3k and 30k hours. Its fitted asymptote is 0.811.`;
   document.getElementById('callout-object').innerHTML = state.skeleton
       ? `The fitted object asymptote is <b>0.565</b>, of which the model has already realized <b>93%</b> at 30k hours.`
@@ -503,7 +503,7 @@ function renderRegionLpips(keys) {
     }]));
     renderPlot(document.getElementById(`plot-lpips-${category}`), {
       yDomain: [ticks[0], ticks.at(-1)], yTicks: ticks,
-      yLabel: `${category === 'hand' ? 'Agent' : 'Object'} GT-mask LPIPS`,
+      yLabel: `${category === 'hand' ? 'Hand' : 'Object'} GT-mask LPIPS`,
       metricName: 'LPIPS', lowerIsBetter: true, seriesKeys: keys,
       data: plotData, showExtrap: false, compactTicks: budgets,
       asymptoteLabel: 'fitted asymptote',
@@ -527,8 +527,8 @@ function renderDesign() {
   renderLegend(document.getElementById('legend-ours'), keys);
   updateReadout('ours', PAPER_PLOTS.design[stateDesign.ours ? 'nano_ours' : 'nano_skeleton'].points.at(-1)[1], 'Nano · 30k hours');
   document.getElementById('callout-ours').innerHTML = stateDesign.ours
-      ? `Ours exceeds the skeleton baseline at every budget, reaching <b>0.546 against 0.527 at 30k hours</b> (an improvement of 3.7%). The gain is roughly constant across the ladder—the ceiling is raised, not the rate at which it is approached.`
-      : `Skeleton conditioning reaches the agent’s limit with far less data, while object fidelity converges far below.`;
+      ? `Ours exceeds the skeleton baseline at every budget, reaching <b>0.546 against 0.527 at 30k hours</b> (an improvement of 3.7%). The gain is roughly constant across the ladder. The ceiling is raised, not the rate at which it is approached.`
+      : `Skeleton conditioning reaches nearly the same hand fidelity limit with far less data, while object fidelity converges far below.`;
 }
 
 function bindLayer(id, target, key, render, labels, affected) {

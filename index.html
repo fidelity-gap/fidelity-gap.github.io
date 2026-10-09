@@ -487,6 +487,9 @@
         <p class="lede">
           We fine-tune Cosmos 3 Nano on ground-truth demonstrations from 11 tasks from the simulated bimanual benchmark of Yang et al. (2025), conditioning on a single start frame and the 138-dimensional humanoid state trajectory and predicting the following 16 frames (17 total at 10 Hz). All evaluations are performed on EgoVLA policy rollouts rather than demonstrations.
         </p>
+        <p class="lede" style="margin-top:16px;">
+          Pre-training on human video improves humanoid predictions, and our conditioning and supervision design brings further gains. However, accurately rendering the hands still does not guarantee accurate predictions of their effects on objects.
+        </p>
       </div>
 
       <!-- successful matches -->
@@ -531,9 +534,7 @@
 
       <div class="evaluation-summary">
         <h3>Quantitative results</h3>
-        <p>From each EgoVLA rollout we extract the 17 frames in which the task outcome is decided, e.g. the moment an object is released, a target is reached, or the simulator records success. We replay that clip’s actions through each variant and render the prediction.</p>
-        <p>The verdict is therefore about the window, not the episode. Seven of the eleven tasks have such a decisive moment: Close-Drawer, Insert-Cans, Open-Laptop, Pour-Balls, Push-Box, Sort-Cans and Stack-Can. The review covers six clips per task, 42 in total, with one reviewer and one seed per variant.</p>
-
+        <p>Success agreement measures whether generated clips support the same success or failure judgment as the corresponding simulator clips.</p>
       </div>
       <div class="table-scroll" role="region" aria-label="Humanoid evaluation metrics" tabindex="0">
       <table class="metric-table">

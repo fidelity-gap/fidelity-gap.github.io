@@ -653,7 +653,11 @@ footer { border-top: 1px solid var(--line); padding: 60px 0 30px; }
 .hero-identity { order: 2; margin-top: 24px; }
 .hero h1 em { font-size: 1.12em; }
 .hero-scaling { order: 3; width: 100%; max-width: 844px; margin: 32px auto 25px; text-align: left; }
-.hero-takeaway { margin-top: 18px; font-size: 14px; line-height: 1.7; color: var(--ink-dim); }
+.hero-takeaway { margin-top: 30px; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.hero-takeaway-lead { font-size: clamp(20px, 1.9vw, 27px); line-height: 1.38; font-weight: 500; letter-spacing: -.02em; color: var(--ink); text-wrap: balance; }
+.hero-takeaway-lead .takeaway-agent { color: #2877b4; }
+.hero-takeaway-lead .takeaway-object { color: #d97827; }
+.hero-takeaway-sub { margin-top: 10px; font-size: 15px; line-height: 1.7; color: var(--ink-dim); }
 .hero-figure-grid { display: grid; grid-template-columns: minmax(0, 1fr) 284px; gap: 30px; align-items: start; }
 .hero-plot.plot-card { padding: 14px 10px 8px; background: var(--bg-2); border-color: var(--line); }
 .hero-plot-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin: 0 8px 10px; }

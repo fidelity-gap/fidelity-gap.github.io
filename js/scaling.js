@@ -265,7 +265,10 @@ function decorateScaleStops(svg, g) {
   scaleState.revealed = plotSeen.has(svg) && !plotPending.has(svg) ? scaleState.revealed : 0;
   const top = g.pad.t, bottom = g.H - g.pad.b;
   const layer = mk('g', { class: 'scale-stops' });
-  layer.appendChild(mk('rect', { class: 'scale-band', x: 0, y: top, width: 30, height: bottom - top, rx: 6 }));
+  // Create the band in its final state: a plot redraw (e.g. when the sample
+  // beside it changes height) must not slide it in from x = 0 or fade it back in.
+  const shown = scaleState.revealed >= scaleState.selected;
+  layer.appendChild(mk('rect', { class: `scale-band${shown ? ' is-visible' : ''}`, x: g.xOf(scaleState.selected) - 15, y: top, width: 30, height: bottom - top, rx: 6 }));
   const xs = SCALE_STOPS.map(g.xOf);
   SCALE_STOPS.forEach((hours, i) => {
     const left = i ? (xs[i - 1] + xs[i]) / 2 : g.pad.l - 14;

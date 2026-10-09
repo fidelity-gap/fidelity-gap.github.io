@@ -90,6 +90,13 @@ h1, h2, h3, h4 { margin: 0; font-weight: 550; letter-spacing: -.045em; }
 [data-theme="dark"] .institution-logo .logo-dark { display: block; }
 [data-theme="dark"] .institution-logo .logo-monochrome { filter: brightness(0) invert(1); }
 .institution-logo:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.hero-logos { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 12px 22px; margin: 16px auto 0; }
+.hero-logos .institution-logos { margin: 0; }
+/* Data partner, not an affiliation: set apart by a divider and a label, no superscript. */
+.hero-partner { display: flex; align-items: center; gap: 12px; min-height: 36px; padding: 2px 0 2px 22px; border-left: 1px solid var(--line); }
+.hero-partner-label { color: var(--ink-dim); font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; line-height: 1; }
+.hero-partner img { display: block; width: auto; height: 20px; }
+.hero-partner:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .dataset-acknowledgment { display: flex; align-items: center; gap: 22px; padding: 20px 0; margin: 0 0 24px; border-block: 1px solid var(--line); }
 .dataset-partner { flex: 0 0 auto; padding: 14px 0; background: transparent; }
 .dataset-partner img { display: block; }
@@ -253,6 +260,8 @@ footer { border-top: 1px solid var(--line); padding: 60px 0 30px; }
 @media (max-width: 760px) {
   .institution-logos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 12px; max-width: 360px; margin-top: 14px; }
   .institution-logo { padding: 6px 4px; }
+  .hero-logos { flex-direction: column; gap: 10px; }
+  .hero-partner { padding: 12px 0 0; border-left: 0; border-top: 1px solid var(--line); }
   .dataset-acknowledgment { flex-wrap: wrap; gap: 14px; }
   html { scroll-padding-top: 90px; }
   .header-inner { height: 66px; padding: 0 22px; flex-wrap: wrap; }
@@ -736,6 +745,8 @@ footer { border-top: 1px solid var(--line); padding: 60px 0 30px; }
 .replay-plots > svg, .replay-metrics > svg { width: 16px; height: 16px; }
 :is(.btn, .layer-button, .tab, .copy-bib, .media-status button, .menu-toggle) { border-radius: 999px; }
 .inline-video-player, .comparison-video-frame { position: relative; min-width: 0; }
+.video-still { position: absolute; display: block; max-width: none; margin: 0; pointer-events: none; }
+.video-still[hidden] { display: none; }
 .inline-video-player video { cursor: pointer; }
 .video-controls { position: absolute; right: 10px; bottom: 34px; }
 .video-seek { appearance: none; position: absolute; left: 10px; bottom: 2px; width: calc(100% - 20px); height: 28px; margin: 0; background: transparent; cursor: pointer; }

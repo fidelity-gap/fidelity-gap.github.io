@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20261008-hero-takeaway2">
+  <link rel="stylesheet" href="css/style.css?v=20261009-partner">
   <style>.site-header { top: env(safe-area-inset-top, 0px); } .paper-ref { font-size: 12px; color: var(--ink-dim); }</style>
 <style>
 /* Highlighted words: colour only, no italic serif */
@@ -98,11 +98,14 @@
           <span><a href="https://vitorguizilini.github.io/" target="_blank" rel="noopener">Vitor Campagnolo Guizilini</a><sup>4</sup></span>
           <span><a href="https://pvtokmakov.github.io/home/" target="_blank" rel="noopener">Pavel Tokmakov</a><sup>4</sup></span>
         </div>
-        <div class="institution-logos" aria-label="Author affiliations">
-          <a href="https://illinois.edu/" target="_blank" rel="noopener" class="institution-logo" aria-label="Affiliation 1: University of Illinois Urbana-Champaign"><sup aria-hidden="true">1</sup><img class="logo-light" src="img/logos/illinois.svg" width="108" height="19" alt=""><img class="logo-dark" src="img/logos/illinois-dark.svg" width="108" height="19" alt=""></a>
-          <a href="https://www.cmu.edu/" target="_blank" rel="noopener" class="institution-logo" aria-label="Affiliation 2: Carnegie Mellon University"><sup aria-hidden="true">2</sup><img class="logo-monochrome" src="img/logos/cmu.svg" width="151" height="14" alt=""></a>
-          <a href="https://www.jhu.edu/" target="_blank" rel="noopener" class="institution-logo" aria-label="Affiliation 3: Johns Hopkins University"><sup aria-hidden="true">3</sup><img class="logo-monochrome" src="img/logos/jhu.svg" width="137" height="32" alt=""></a>
-          <a href="https://www.tri.global/" target="_blank" rel="noopener" class="institution-logo" aria-label="Affiliation 4: Toyota Research Institute"><sup aria-hidden="true">4</sup><img class="logo-light" src="img/logos/tri-light.svg" width="121" height="32" alt=""><img class="logo-dark" src="img/logos/tri-on-dark.svg" width="121" height="32" alt=""></a>
+        <div class="hero-logos">
+          <div class="institution-logos" aria-label="Author affiliations">
+            <a href="https://illinois.edu/" target="_blank" rel="noopener" class="institution-logo" aria-label="Affiliation 1: University of Illinois Urbana-Champaign"><sup aria-hidden="true">1</sup><img class="logo-light" src="img/logos/illinois.svg" width="108" height="19" alt=""><img class="logo-dark" src="img/logos/illinois-dark.svg" width="108" height="19" alt=""></a>
+            <a href="https://www.cmu.edu/" target="_blank" rel="noopener" class="institution-logo" aria-label="Affiliation 2: Carnegie Mellon University"><sup aria-hidden="true">2</sup><img class="logo-monochrome" src="img/logos/cmu.svg" width="151" height="14" alt=""></a>
+            <a href="https://www.jhu.edu/" target="_blank" rel="noopener" class="institution-logo" aria-label="Affiliation 3: Johns Hopkins University"><sup aria-hidden="true">3</sup><img class="logo-monochrome" src="img/logos/jhu.svg" width="137" height="32" alt=""></a>
+            <a href="https://www.tri.global/" target="_blank" rel="noopener" class="institution-logo" aria-label="Affiliation 4: Toyota Research Institute"><sup aria-hidden="true">4</sup><img class="logo-light" src="img/logos/tri-light.svg" width="121" height="32" alt=""><img class="logo-dark" src="img/logos/tri-on-dark.svg" width="121" height="32" alt=""></a>
+          </div>
+          <a class="hero-partner" href="https://www.mecka.ai/" target="_blank" rel="noopener" aria-label="Data partner: Mecka"><span class="hero-partner-label" aria-hidden="true">Data partner</span><img src="img/logos/mecka.svg" width="83" height="20" alt=""></a>
         </div>
 
         <div class="actions">
@@ -219,7 +222,7 @@
 
       <!-- Metric: SCS (wording follows paper Sec. 3, Metrics) -->
       <div class="metric-block" id="scs">
-        <h3 class="metric-title">Metric · <span class="mono">SCS</span> (structural consistency)</h3>
+        <h3 class="metric-title">Fidelity metric · <span class="mono">SCS</span> (structural consistency)</h3>
         <p class="metric-lede"><a class="metric-cite" href="https://arxiv.org/abs/2601.15284" target="_blank" rel="noopener">SCS</a> segments and tracks key scene elements through the predicted and ground-truth videos and averages mask IoU, capturing whether the provided actions are accurately reflected in the generated world.</p>
 
         <details class="appearance-details metric-details">
@@ -345,7 +348,7 @@
         <div>
           <div class="k">Finding 3</div>
           <div class="v">Neither more data nor a larger model closes the gap.</div>
-          <div class="d">Scaling the model <span class="mono">4×</span> (Super) leaves agent fidelity virtually unchanged and raises the object ceiling by only <span class="mono">0.034</span> SCS; closing the remaining <span class="mono">0.205</span> to the agent fidelity ceiling at that rate would take roughly six more <span class="mono">4×</span> increases in model size.</div>
+          <div class="d">Scaling the model <span class="mono">4×</span> (Super) leaves agent fidelity virtually unchanged and raises the object ceiling by only <span class="mono">0.034</span> SCS; closing the remaining <span class="mono">0.205</span> to the agent fidelity ceiling at that rate would take nearly four orders of magnitude more parameters.</div>
         </div>
       </div>
 
@@ -626,9 +629,9 @@
 <script src="js/qualitative-data.js?v=20261008-skeleton-four-column-v5"></script>
 <script src="js/qualitative-ui.js?v=20261008-skeleton-four-column-v5"></script>
 <script src="js/teaser-scaling.js"></script>
-<script src="js/scaling.js?v=20261009-lpips-baselines"></script>
+<script src="js/scaling.js?v=20261009-band"></script>
 <script src="js/dataset.js"></script>
-<script src="js/playback.js?v=20261009-safari"></script>
+<script src="js/playback.js?v=20261009-stills"></script>
 <script src="js/main.js?v=20261008-findings"></script>
 <script src="js/teaser-data.js"></script>
 <script src="js/media.js?v=20261009-autoplay"></script>

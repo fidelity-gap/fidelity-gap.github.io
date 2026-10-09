@@ -211,9 +211,9 @@
     <section id="findings">
       <div class="section-head">
         <div class="num">02 · Findings</div>
-        <h2>Scaling brings the agent near saturation but <em>leaves object interaction far behind</em>.</h2>
+        <h2>More data gets the hands right, but <em>not the objects they handle</em>.</h2>
         <p class="lede">
-          Because we ask whether generic models of object dynamics can be learned from ego-centric human video, we evaluate out of distribution. Our evaluation set comes from a separate recording campaign: none of its sessions appear in training, and since platform, operators and sites all differ, no location or participant is shared. 37% of its environment categories, accounting for a quarter of its clips, never appear in training.
+          Our models see one first-person frame and the motion of the person's arms and hands, then generate the next 16 frames (1.6 s) of video. We score two things separately: the <b>agent</b>, meaning the person's own hands, and the <b>objects</b> those hands pick up, push or fold. As training grows from 300 to 30,000 hours of video, the hands get close to the best the models reach, while the objects improve slowly and stay far behind. Every test clip comes from a separate recording campaign, with different people, places and cameras than training.
         </p>
       </div>
 

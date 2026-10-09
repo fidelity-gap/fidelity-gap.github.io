@@ -222,18 +222,24 @@
         <h3 class="metric-title">Metric · <span class="mono">SCS</span> (structural consistency)</h3>
         <p class="metric-lede">SCS (<a class="metric-cite" href="https://arxiv.org/abs/2601.15284" target="_blank" rel="noopener">Walk through Paintings</a>) segments and tracks key scene elements through the predicted and ground-truth videos and averages mask IoU, capturing whether the provided actions are accurately reflected in the generated world.</p>
 
+        <details class="appearance-details metric-details">
+          <summary>
+            <span class="appearance-summary-label">How SCS is computed</span>
+            <span class="appearance-metric mono">Example · 3 steps</span>
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg>
+          </summary>
         <figure class="scs-demo" id="scs-demo" aria-label="SCS on one evaluation clip">
           <div class="scs-controls">
             <div class="scs-group" role="group" aria-label="Scene element">
               <span class="scs-group-label mono">Element</span>
-              <button type="button" class="tab active" data-scs-element="hand" aria-pressed="true">Hands</button>
-              <button type="button" class="tab" data-scs-element="object" aria-pressed="false">Object</button>
+              <button type="button" class="tab" data-scs-element="hand" aria-pressed="false">Hands</button>
+              <button type="button" class="tab active" data-scs-element="object" aria-pressed="true">Object</button>
             </div>
             <div class="scs-group" role="group" aria-label="Training data">
               <span class="scs-group-label mono">Trained on</span>
-              <button type="button" class="tab" data-scs-budget="300h" aria-pressed="false">300 h</button>
+              <button type="button" class="tab active" data-scs-budget="300h" aria-pressed="true">300 h</button>
               <button type="button" class="tab" data-scs-budget="3kh" aria-pressed="false">3k h</button>
-              <button type="button" class="tab active" data-scs-budget="30kh" aria-pressed="true">30k h</button>
+              <button type="button" class="tab" data-scs-budget="30kh" aria-pressed="false">30k h</button>
             </div>
           </div>
           <div class="scs-panels">
@@ -242,6 +248,7 @@
             <figure><figcaption><i class="scs-swatch ov"></i><b>Mask overlay</b><span class="hero-mask-legend scs-legend"><span><i class="ov"></i>Overlap</span><span><i class="gt"></i>GT only</span><span><i class="pr"></i>Predicted only</span></span></figcaption><canvas data-scs-canvas="ov" aria-label="Overlay of ground-truth and predicted masks"></canvas></figure>
             <p class="scs-status media-status" role="status" hidden></p>
           </div>
+          <div class="scs-strip" aria-label="Key frames: mask overlay and IoU"></div>
           <div class="scs-score">
             <div class="scs-readout">
               <div><span class="scs-k mono" data-scs-frame>Frame 1 / 16</span><span class="scs-v"><span data-scs-frame-iou>–</span></span><span class="scs-d">IoU = overlap ÷ (overlap + GT only + predicted only)</span></div>
@@ -251,13 +258,6 @@
             <svg class="scs-bars" viewBox="0 0 640 120" role="img" aria-label="Per-frame IoU for frames 1 to 16"></svg>
           </div>
         </figure>
-
-        <details class="appearance-details metric-details">
-          <summary>
-            <span class="appearance-summary-label">How SCS is computed</span>
-            <span class="appearance-metric mono">3 steps</span>
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg>
-          </summary>
         <div class="takeaway metric-steps">
           <div>
             <div class="k">1 · Segment &amp; track</div>
@@ -618,6 +618,6 @@
 <script src="js/main.js?v=20261008-findings"></script>
 <script src="js/teaser-data.js"></script>
 <script src="js/media.js?v=20261008-findings"></script>
-<script src="js/scs-demo.js?v=20261008-scs"></script>
+<script src="js/scs-demo.js?v=20261008-scs2"></script>
 </body>
 </html>

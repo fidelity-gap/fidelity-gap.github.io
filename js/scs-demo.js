@@ -4,7 +4,7 @@
   const root = document.getElementById('scs-demo');
   if (!root) return;
 
-  const FPS = 10, FRAMES = 17, SIZE = 512, PLAY_FPS = 5;
+  const FPS = 10, FRAMES = 17, SIZE = 512, PLAY_FPS = 3, KEY_FRAMES = [1, 4, 8, 12, 16];
   const COLORS = { ov: [202, 229, 219], gt: [220, 90, 127], pr: [112, 98, 187] };
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
   const src = (budget, kind) => `videos/scs/idx112_${budget}${kind ? `_${kind}_mask` : ''}.mp4`;
@@ -24,8 +24,9 @@
   const frameIou = root.querySelector('[data-scs-frame-iou]');
   const scoreOut = root.querySelector('[data-scs-score]');
   const playButton = root.querySelector('.scs-play');
+  const strip = root.querySelector('.scs-strip');
 
-  const state = { element: 'hand', budget: '30kh', frame: 1, playing: false, wanted: !motion.matches, timer: 0 };
+  const state = { element: 'object', budget: '300h', frame: 1, playing: false, wanted: !motion.matches, timer: 0 };
   const cache = new Map();
 
   // Decode every frame of a 10 fps clip by seeking to the middle of each frame.
@@ -84,7 +85,7 @@
       const future = ious.slice(1);
       current = { gtRgb, prRgb, gtMask, prMask, ious, scs: future.reduce((s, v) => s + v, 0) / future.length };
       status.hidden = true;
-      renderBars(); draw();
+      renderBars(); renderStrip(); draw();
     } catch (err) {
       status.textContent = 'The clip could not be loaded.';
     }
@@ -121,6 +122,7 @@
     frameIou.textContent = f === 0 ? 'not scored' : current.ious[f].toFixed(2);
     scoreOut.textContent = current.scs.toFixed(3);
     bars.querySelectorAll('.scs-bar').forEach(bar => bar.classList.toggle('active', +bar.dataset.frame === f));
+    strip.querySelectorAll('button').forEach(b => b.classList.toggle('active', +b.dataset.frame === f));
   }
 
   // Per-frame IoU bars for frames 1-16; the dashed line is their mean, i.e. the clip's SCS.
@@ -142,6 +144,27 @@
       const pick = () => { state.frame = +bar.dataset.frame; state.wanted = false; setPlaying(false); draw(); };
       bar.addEventListener('click', pick);
       bar.addEventListener('mouseenter', () => { if (!state.playing) pick(); });
+    });
+  }
+
+  // Key frames side by side, so the change across the horizon is visible without playback.
+  const thumbSource = document.createElement('canvas');
+  thumbSource.width = thumbSource.height = SIZE;
+  const thumbCtx = thumbSource.getContext('2d');
+  function renderStrip() {
+    strip.innerHTML = '';
+    KEY_FRAMES.forEach(f => {
+      const button = document.createElement('button');
+      button.type = 'button'; button.dataset.frame = f;
+      button.setAttribute('aria-label', `Frame ${f}, IoU ${current.ious[f].toFixed(2)}`);
+      const thumb = document.createElement('canvas');
+      thumb.width = thumb.height = 160;
+      overlay(thumbCtx, current.gtMask[f], current.prMask[f]);
+      thumb.getContext('2d').drawImage(thumbSource, 0, 0, 160, 160);
+      button.append(thumb);
+      button.insertAdjacentHTML('beforeend', `<span class="mono">Frame ${f}</span><b>${current.ious[f].toFixed(2)}</b>`);
+      button.addEventListener('click', () => { state.frame = f; state.wanted = false; setPlaying(false); draw(); });
+      strip.append(button);
     });
   }
 

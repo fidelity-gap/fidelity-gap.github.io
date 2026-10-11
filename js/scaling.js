@@ -457,7 +457,7 @@ function renderFindings() {
       ? `<b>Skeleton conditioning improves sample efficiency when learning agent fidelity.</b> With 300 hours of training data, the skeleton-conditioned Nano variant reaches the agent fidelity that the baseline attains only at roughly 15k hours, a reduction of about 50×. Both converge to nearly the same level: 0.800 and 0.811 SCS, a difference of about 0.01.`
       : `The Nano curve gains 0.12 SCS between 300 and 3k hours but only 0.06 between 3k and 30k hours. Its fitted asymptote is 0.811.`;
   document.getElementById('callout-object').innerHTML = state.skeleton
-      ? `<b>Object fidelity improves slowly, and the gains shrink as data grows:</b> +0.056 SCS from 300 to 3k hours, but only +0.035 from 3k to 30k. The fitted scaling curve levels off at <b>0.565</b> SCS. At 30k hours the model already scores 0.527, or <b>93%</b> of that limit. Further data would add at most about 0.04 SCS, leaving objects far below the agent's ≈0.80.`
+      ? `<b>Object fidelity improves slowly, and the gains shrink as data grows:</b> +0.056 SCS from 300 to 3k hours, but only +0.035 from 3k to 30k. The fitted scaling curve levels off at <b>0.565</b> SCS. At 30k hours the model already scores 0.527, or <b>93%</b> of that limit. If the trend holds, further data would add at most about 0.04 SCS, leaving objects far below the agent's ≈0.80.`
       : `Without skeleton conditioning, the object curves show no visible curvature over this range, so their asymptotes are not yet constrained.`;
   renderRegionLpips(keys);
 }
@@ -546,8 +546,8 @@ function renderDesign() {
   renderLegend(document.getElementById('legend-ours'), keys);
   updateReadout('ours', PAPER_PLOTS.design[stateDesign.ours ? 'nano_ours' : 'nano_skeleton'].points.at(-1)[1], 'Nano · 30k hours');
   document.getElementById('callout-ours').innerHTML = stateDesign.ours
-      ? `Ours exceeds the skeleton baseline at every budget, reaching <b>0.546 against 0.527 at 30k hours</b> (an improvement of 3.7%). The gain is roughly constant across the ladder—the ceiling is raised, not the rate at which it is approached.`
-      : `Skeleton conditioning reaches the agent’s limit with far less data, while object fidelity converges far below.`;
+      ? `<b>Partly.</b> Ours exceeds the skeleton baseline at every budget, reaching <b>0.546 against 0.527 at 30k hours</b> (an improvement of 3.7%). The gain is, however, roughly constant across budgets: the ceiling is raised, not the rate at which it is approached, and it remains far below the agent's. Improving interaction fidelity to a usable level will require more substantial changes to how world models are trained.`
+      : `Skeleton conditioning reaches the agent’s limit with far less data, while object fidelity plateaus far below.`;
 }
 
 function bindLayer(id, target, key, render, labels, affected) {

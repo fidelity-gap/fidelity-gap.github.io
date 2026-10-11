@@ -216,7 +216,7 @@
         <div class="num">02 · Findings</div>
         <h2>Scaling brings the agent near saturation but <em>leaves object interaction far behind</em>.</h2>
         <p class="lede">
-          We fine-tune <a class="cosmos-link" href="https://research.nvidia.com/labs/cosmos-lab/cosmos3/" target="_blank" rel="noopener">Cosmos 3</a> Edge (4B), Nano (16B) and Super (64B) on 30k hours of ego-centric video. Each model sees one first-person frame and the motion of the person's hands, then generates the next 16 frames (1.6 s). We score the <b>agent</b> (the person's hands) and the <b>objects</b> they handle separately, on clips recorded with different people, places and cameras than those used in training. To see what more data would bring, we fit a scaling curve to each result and extend it beyond 30k hours (dotted lines). We then use <b>skeleton conditioning</b> as an instrument for locating the object limit. It additionally supplies the 3D hand and body keypoints recorded with each clip, drawn as a skeleton projected onto the image, so the model no longer has to infer where the hands appear in the frame, and the hands reach their limit with far less data.
+          We fine-tune <a class="cosmos-link" href="https://research.nvidia.com/labs/cosmos-lab/cosmos3/" target="_blank" rel="noopener">Cosmos 3</a> Edge (4B), Nano (16B) and Super (64B) on 30k hours of ego-centric video. Each model sees one first-person frame and the motion of the person's hands, then generates the next 16 frames (1.6 s). We score the <b>agent</b> (the person's hands) and the <b>objects</b> they handle separately, on clips recorded with different people, places and cameras than those used in training. Where the measured curves have begun to level off, we fit a scaling curve to each result and extend it beyond 30k hours (dotted lines), to see what more data would bring. We then use <b>skeleton conditioning</b> as an instrument for locating the object limit. It additionally supplies the 3D hand and body keypoints recorded with each clip, drawn as a skeleton projected onto the image, so the model no longer has to infer where the hands appear in the frame, and the hands reach their limit with far less data.
         </p>
       </div>
 
@@ -337,17 +337,17 @@
       <div class="takeaway">
         <div>
           <div class="k">Finding 1</div>
-          <div class="v">Skeleton conditioning helps models learn agent fidelity with less data.</div>
+          <div class="v">Skeleton conditioning helps models learn agent fidelity with high data efficiency.</div>
           <div class="d">With <span class="mono">300</span> hours of training data, the skeleton-conditioned Nano variant reaches the agent fidelity that the baseline attains only at roughly <span class="mono">15k</span> hours, a reduction of about <span class="mono">50×</span>. Both converge to nearly the same level: <span class="mono">0.800</span> and <span class="mono">0.811</span> SCS, a difference of about <span class="mono">0.01</span>.</div>
         </div>
         <div>
           <div class="k">Finding 2</div>
-          <div class="v">Once agent fidelity saturates, object fidelity converges at a much lower level.</div>
+          <div class="v">Once agent fidelity saturates, object fidelity plateaus at a much lower level.</div>
           <div class="d">Object fidelity improves by only <span class="mono">0.09</span> SCS across two orders of magnitude and decelerates (<span class="mono">+0.056</span> from 300 to 3k hours, <span class="mono">+0.035</span> from 3k to 30k). Its fitted asymptote is <span class="mono">0.565</span>, of which <span class="mono">93%</span> is already realized at 30k hours.</div>
         </div>
         <div>
           <div class="k">Finding 3</div>
-          <div class="v">Neither more data nor a larger model closes the gap.</div>
+          <div class="v">Closing the gap depends on how models are trained, not just on scale.</div>
           <div class="d">Scaling the model <span class="mono">4×</span> (Super) leaves agent fidelity virtually unchanged and raises the object ceiling by only <span class="mono">0.034</span> SCS; closing the remaining <span class="mono">0.205</span> to the agent fidelity ceiling at that rate would take nearly four orders of magnitude more parameters.</div>
         </div>
       </div>
@@ -370,7 +370,7 @@
         <div class="num">03 · Design</div>
         <h2>Can object interaction modeling <em>be improved?</em></h2>
         <p class="lede">
-          The previous section established a low limit on object fidelity that additional data is unlikely to overcome. We now ask whether changing the supervision can.
+          The previous section established a low limit on object fidelity that additional data alone is unlikely to overcome. We now ask whether changing the supervision can.
         </p>
       </div>
 
@@ -532,7 +532,7 @@
           We fine-tune Cosmos 3 Nano on ground-truth demonstrations from 11 tasks from the simulated bimanual benchmark of Yang et al. (2025), conditioning on a single start frame and the 138-dimensional humanoid state trajectory and predicting the following 16 frames (17 total at 10 Hz). All evaluations are performed on EgoVLA policy rollouts rather than demonstrations.
         </p>
         <p class="lede" style="margin-top:16px;">
-          Pre-training on human video improves humanoid predictions, and our conditioning and supervision design brings further gains. However, accurately rendering the hands still does not guarantee accurate predictions of their effects on objects.
+          Pre-training on 30k hours of human video improves every humanoid metric on average over the released Cosmos 3, and our conditioning and supervision design, applied on top of the same pre-training, brings further gains. However, accurately rendering the hands still does not guarantee accurate predictions of their effects on objects.
         </p>
       </div>
 
@@ -600,6 +600,18 @@
     </section>
 
 
+    <!-- ============ 06 SCOPE AND LIMITATIONS (paper Sec. 8) ============ -->
+    <section id="limitations">
+      <div class="section-head">
+        <div class="num">06 · Scope and limitations</div>
+        <h2>What these results <em>do and do not show</em>.</h2>
+        <p class="lede">
+          Our data ladder spans two orders of magnitude and couples data volume with optimization budget, so it establishes where fidelity is heading under joint scaling, not the effect of either factor alone. Smaller budgets receive fewer optimization steps and sit further from convergence; training each to completion would lower the fitted asymptotes, so the ceilings we report are in this sense optimistic. They also hold only insofar as the fitted regime continues beyond 30k hours. Despite their diversity, our training and evaluation sets come from a single collection protocol, and the evaluation set is limited in scale, which constrains how far our conclusions generalize to ego-centric video as a whole. Finally, our experiments study generative world models; whether latent-predictive models learn to capture interaction dynamics more readily remains open.
+        </p>
+      </div>
+    </section>
+
+
     <!-- ============ FOOTER ============ -->
     <footer id="bib">
       <div class="citation-box">
@@ -629,7 +641,7 @@
 <script src="js/qualitative-data.js?v=20261008-skeleton-four-column-v5"></script>
 <script src="js/qualitative-ui.js?v=20261008-skeleton-four-column-v5"></script>
 <script src="js/teaser-scaling.js"></script>
-<script src="js/scaling.js?v=20261009-band"></script>
+<script src="js/scaling.js?v=20261011-mecka"></script>
 <script src="js/dataset.js"></script>
 <script src="js/playback.js?v=20261009-stills"></script>
 <script src="js/main.js?v=20261008-findings"></script>

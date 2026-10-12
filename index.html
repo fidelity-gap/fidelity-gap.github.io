@@ -600,11 +600,10 @@
     </section>
 
 
-    <!-- ============ 06 SCOPE AND LIMITATIONS (paper Sec. 8) ============ -->
+    <!-- ============ SCOPE AND LIMITATIONS (paper Sec. 8) ============ -->
     <section id="limitations">
-      <div class="section-head">
-        <div class="num">06 · Scope and limitations</div>
-        <h2>What these results <em>do and do not show</em>.</h2>
+      <div class="section-head evaluation-summary" style="margin-top:0;">
+        <h3>Scope and limitations</h3>
         <p class="lede">
           Our data ladder spans two orders of magnitude and couples data volume with optimization budget, so it establishes where fidelity is heading under joint scaling, not the effect of either factor alone. Smaller budgets receive fewer optimization steps and sit further from convergence; training each to completion would lower the fitted asymptotes, so the ceilings we report are in this sense optimistic. They also hold only insofar as the fitted regime continues beyond 30k hours. Despite their diversity, our training and evaluation sets come from a single collection protocol, and the evaluation set is limited in scale, which constrains how far our conclusions generalize to ego-centric video as a whole. Finally, our experiments study generative world models; whether latent-predictive models learn to capture interaction dynamics more readily remains open.
         </p>

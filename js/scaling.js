@@ -546,7 +546,7 @@ function renderDesign() {
   renderLegend(document.getElementById('legend-ours'), keys);
   updateReadout('ours', PAPER_PLOTS.design[stateDesign.ours ? 'nano_ours' : 'nano_skeleton'].points.at(-1)[1], 'Nano · 30k hours');
   document.getElementById('callout-ours').innerHTML = stateDesign.ours
-      ? `<b>Partly.</b> Ours exceeds the skeleton baseline at every budget, reaching <b>0.546 against 0.527 at 30k hours</b> (an improvement of 3.7%). The gain is, however, roughly constant across budgets: the ceiling is raised, not the rate at which it is approached, and it remains far below the agent's. Improving interaction fidelity to a usable level will require more substantial changes to how world models are trained.`
+      ? `Ours exceeds the skeleton baseline at every budget, reaching <b>0.546 against 0.527 at 30k hours</b> (an improvement of 3.7%). The gain is, however, roughly constant across budgets: the ceiling is raised, not the rate at which it is approached, and it remains far below the agent's. Improving interaction fidelity to a usable level will require more substantial changes to how world models are trained.`
       : `Skeleton conditioning reaches the agent’s limit with far less data, while object fidelity plateaus far below.`;
 }
 
